@@ -31,11 +31,17 @@
   * {
     @apply border-border;
   }
+  *::-webkit-scrollbar{
+    @apply w-2;   
+  }
+  *::-webkit-scrollbar-thumb{
+    @apply w-2 bg-secondary;   
+  }
   body {
     @apply bg-background text-foreground;
   }
 
   .link-menu-admin{
-    @apply py-[2px] px-2 flex items-center gap-2 rounded hover:bg-black hover:text-primary
+    @apply py-[2px] px-2 flex items-center gap-2 rounded hover:bg-background hover:text-primary
   }
 }

@@ -1,12 +1,20 @@
-import { CalendarClock, CalendarDays, CheckCircle, MoveRight, User } from "lucide-react";
+import Link from "next/link";
 import { HeaderAdmin } from "./HeaderAdmin";
 import { MenuAdmin } from "./MenuAdmin";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { AlertCircle, CalendarClock, CalendarDays, CheckCircle, CheckCircle2, Clock, MoveRight, User, XCircle } from "lucide-react";
+import { ServicePanel } from "./ServicePanel";
+
+const schedules = [
+  { service: "Banho e tosa", hour: "08h30", status: "Pendente" },
+  { service: "Vacina", hour: "09h30", status: "Confirmado" },
+  { service: "Tosa", hour: "08h30", status: "Rejeitado" },
+  { service: "Banho", hour: "08h30", status: "Concluído" },
+];
 
 export default () => {
   return(
-    <div className="">
+    <div>
       <HeaderAdmin/>
       <MenuAdmin title="Overview"/>
 
@@ -92,8 +100,12 @@ export default () => {
         </div>
       </div>
 
-      <div className="p-6 grid grid-cols-2 gap-10">
-        <div className="py-4 px-5 border rounded-md">
+      <div className="p-6 grid grid-cols-2 gap-5">
+        {/* PAINEL DE SERVIÇOS */}
+        <ServicePanel/>
+
+        {/* AGENDAMENTOS DE HOJE */}
+        <div className="py-4 px-5 h-fit border rounded-md">
           <div className="flex items-start justify-between">
             <div>
               <h1 className="font-semibold">
@@ -101,7 +113,7 @@ export default () => {
               </h1>
 
               <span className="text-muted-foreground text-sm">
-                Total de 5 agendamento
+                quinta-feira, 22 de out
               </span>
             </div>
 
@@ -114,8 +126,42 @@ export default () => {
             </Button>
           </div>
 
-          <div>
+          <div className="mt-5 space-y-4">
+            {schedules.map(schedule => (
+              <div className="flex items-center gap-2">
+                <div className="flex-1">
+                  <h1>
+                    {schedule.service}
+                  </h1>
 
+                  <span className="flex items-center gap-1 text-muted-foreground text-sm">
+                    <Clock className="w-4 h-4"/>
+
+                    às {schedule.hour}
+                  </span>
+                </div>
+
+                {schedule.status === "Pendente" ? (
+                  <span className="py-1 px-2 rounded flex items-center gap-1 text-yellow-500 bg-yellow-950">
+                    <AlertCircle className="w-4 h-4"/>
+
+                    Pendente
+                  </span>
+                ) : schedule.status === "Confirmado" ? (
+                  <span className="py-1 px-2 rounded flex items-center gap-1 text-green-500 bg-green-950">
+                    <CheckCircle2 className="w-4 h-4"/>
+
+                    Confirmado
+                  </span>
+                ) : (
+                  <span className="py-1 px-2 rounded flex items-center gap-1 text-red-500 bg-red-950">
+                    <XCircle className="w-4 h-4"/>
+
+                    Rejeitado
+                  </span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
