@@ -1,0 +1,26 @@
+
+# @Name
+GET http://localhost:3333/schedules
+
+###
+
+# @Agendamento único
+GET http://localhost:3333/schedules/f6819a21-2b77-4448-8d5b-875c4fd35b90
+
+###
+
+# @Tutors
+GET http://localhost:3333/tutors
+
+###
+
+# @Registrando tutor
+POST http://localhost:3333/tutors
+content-type: application/json
+
+{
+  "name": "Rebheca Vidal",
+  "email": "glauciabreu@gmail.com",
+  "phone": "83987296826",
+  "address": "Rua Belarminio Timóteo 113 - Palmeira"
+}
