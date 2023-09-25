@@ -5,10 +5,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 const invoices = [
   {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
+    invoice: "Pedro Lucas",
+    paymentStatus: "83 98729-6826",
+    totalAmount: "22/09/2023",
+    paymentMethod: "12",
   },
   {
     invoice: "INV002",
@@ -56,16 +56,23 @@ export default () => {
 
       <div className="px-6 pb-6 space-y-5">
         <Input
-          placeholder="Buscar tutor"
+          placeholder="Buscar de 45 tutores..."
           className="w-full max-w-md"
         />
+
+        {/* <div className="w-full h-[40vh] flex items-center justify-center border-y">
+          <span className="text-sm text-muted-foreground">
+            Nenhum tutor cadastrado
+          </span>
+        </div> */}
 
         <Table>
           <TableHeader>
             <TableRow className="rounded-md">
               <TableHead>Nome</TableHead>
               <TableHead>Contato</TableHead>
-              <TableHead>Q. de serviços</TableHead>
+              <TableHead>Endereço</TableHead>
+              <TableHead>N° de serviços</TableHead>
               <TableHead>Data de cadastro</TableHead>
             </TableRow>
           </TableHeader>
@@ -75,6 +82,7 @@ export default () => {
               <TableRow key={invoice.invoice}>
                 <TableCell>{invoice.invoice}</TableCell>
                 <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell>R. Doutor Paulo Roberto Mayer 556</TableCell>
                 <TableCell>{invoice.paymentMethod}</TableCell>
                 <TableCell>{invoice.totalAmount}</TableCell>
               </TableRow>

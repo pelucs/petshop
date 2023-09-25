@@ -30,7 +30,7 @@ export default () => {
 
           <div className="flex flex-col">
             <strong className="text-4xl">
-              05
+              0
             </strong>
 
             <span className="text-muted-foreground text-sm">
@@ -50,7 +50,7 @@ export default () => {
 
           <div className="flex flex-col">
             <strong className="text-4xl">
-              10
+              0
             </strong>
 
             <span className="text-muted-foreground text-sm">
@@ -70,7 +70,7 @@ export default () => {
 
           <div className="flex flex-col">
             <strong className="text-4xl">
-              425
+              0
             </strong>
 
             <span className="text-muted-foreground text-sm">
@@ -90,7 +90,7 @@ export default () => {
 
           <div className="flex flex-col">
             <strong className="text-4xl">
-              45
+              0
             </strong>
 
             <span className="text-muted-foreground text-sm">
@@ -105,8 +105,8 @@ export default () => {
         <ServicePanel/>
 
         {/* AGENDAMENTOS DE HOJE */}
-        <div className="py-4 px-5 h-fit border rounded-md">
-          <div className="flex items-start justify-between">
+        <div className="h-fit border rounded-md">
+          <div className="py-4 px-5 flex items-center justify-between border-b">
             <div>
               <h1 className="font-semibold">
                 Agendamentos de hoje
@@ -126,7 +126,13 @@ export default () => {
             </Button>
           </div>
 
-          <div className="mt-5 space-y-4">
+          <div className="py-4 px-5 space-y-4">
+            {/* <div className="h-full flex items-center justify-center">
+              <span className="text-sm text-muted-foreground">
+                Nenhum agendamento
+              </span>
+            </div> */}
+
             {schedules.map(schedule => (
               <div className="flex items-center gap-2">
                 <div className="flex-1">

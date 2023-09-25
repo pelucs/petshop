@@ -1,4 +1,4 @@
-import { AlertCircle, CalendarDays, Clock } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { DialogSchedule } from "./DialogSchedule";
 
 export function ServicePanel(){
@@ -10,11 +10,17 @@ export function ServicePanel(){
         </h1>
 
         <span className="text-muted-foreground text-sm">
-          Painel para aceitar, rejeitar e concluir agendamentos
+          Painel para aceitar, rejeitar, concluir ou excuir agendamentos
         </span>
       </div>
 
       <div className="py-4 px-5 space-y-5">
+        {/* <div className="h-full flex items-center justify-center">
+          <span className="text-sm text-muted-foreground">
+            Nenhum agendamento
+          </span>
+        </div> */}
+
         <div>
           <h1 className="font-semibold flex items-center gap-2">
             <CalendarDays className="w-4 h-4"/>
@@ -23,6 +29,7 @@ export function ServicePanel(){
           </h1>
 
           <div className="mt-2 flex flex-col">
+            <DialogSchedule type="aside"/>
             <DialogSchedule type="aside"/>
             <DialogSchedule type="aside"/>
           </div>

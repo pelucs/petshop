@@ -48,7 +48,6 @@ export default () => {
                   </div> */}
 
                   <DialogSchedule type="calendar"/>
-                  <DialogSchedule type="calendar"/>
                 </div>
               </div>
             ))}

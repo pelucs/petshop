@@ -7,7 +7,7 @@ export function HeaderAdmin(){
       <h1>PetShop</h1>
 
       <div>
-        <Button variant="outline" className="border-dashed">
+        <Button variant="outline">
           <PlusCircle className="w-4 h-4 mr-2"/>
 
           Agendar

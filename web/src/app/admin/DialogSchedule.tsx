@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
-import { AlertCircle, CheckCircle2, Clock, Trash, Trash2, XCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Clock, PawPrint, Phone, Trash, Trash2, XCircle } from 'lucide-react';
 
 interface TypeButtonTrigger{
   type: string;
@@ -12,15 +12,31 @@ export function DialogSchedule({ type }: TypeButtonTrigger){
     <Dialog>
       {type === "aside" ? (
         <DialogTrigger className="flex-1 py-3 flex items-center justify-between hover:px-4 hover:bg-secondary transition-all rounded-md">
-          <div>
-            <h1>
-              Banho e tosa
-            </h1>
+          <div className="space-y-2">
+            <div className="flex items-center space-x-2">
+              <h1>
+                Banho e tosa
+              </h1>
 
-            <span className="flex items-center gap-1 text-muted-foreground text-sm">
-              <Clock className="w-4 h-4"/>
+              <Separator orientation='vertical' className="h-4"/>
 
-              às 08h30
+              <span className="flex items-center gap-1 text-muted-foreground text-xs">
+                <Clock className="w-4 h-4"/>
+
+                às 08h30
+              </span>
+            </div>
+
+            <span className="flex items-center gap-1 text-muted-foreground text-xs">
+              <PawPrint className="w-4 h-4"/>
+
+              Maria Zaya
+            </span>
+
+            <span className="flex items-center gap-1 text-muted-foreground text-xs">
+              <Phone className="w-4 h-4"/>
+
+              (83) 98729-6826
             </span>
           </div>
 
