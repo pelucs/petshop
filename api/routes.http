@@ -15,12 +15,12 @@ GET http://localhost:3333/tutors
 ###
 
 # @Registrando tutor
-POST http://localhost:3333/tutors
+POST http://localhost:3333/register
 content-type: application/json
 
 {
-  "name": "Rebheca Vidal",
-  "email": "glauciabreu@gmail.com",
+  "name": "Pedro Lucas",
+  "email": "pe.lucs0089@gmail.com",
   "phone": "83987296826",
   "address": "Rua Belarminio Timóteo 113 - Palmeira"
 }

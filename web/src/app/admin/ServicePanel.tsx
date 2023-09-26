@@ -2,6 +2,7 @@ import { CalendarDays } from "lucide-react";
 import { DialogSchedule } from "./DialogSchedule";
 
 export function ServicePanel(){
+
   return(
     <div className="flex-1 rounded-md border bg-card">
       <div className="py-4 px-5 border-b">

@@ -1,6 +1,20 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
+import { isPast, isToday } from 'date-fns';
 import { z } from "zod";
+
+interface ScheduleTypes{
+  id: string;
+  userId: string;
+  tutor: string;
+  contact: string;
+  petName: string;
+  service: string;
+  observation: string;
+  dateService: string;
+  status: string;
+  isLost: boolean;
+}
 
 export async function schedulesRoutes(app: FastifyInstance){
 
@@ -11,6 +25,54 @@ export async function schedulesRoutes(app: FastifyInstance){
   
     return schedules;
   });
+
+  //Agendamentos de hoje
+  app.get("/schedules/today", async () => {
+    const schedules = await prisma.schedule.findMany();
+
+    const todaySchedules: ScheduleTypes[] = [];
+
+    //Analisando cada agendamento
+    for(const schedule of schedules){
+
+      //O agendamento é de hoje?
+      if(isToday(Number(schedule.dateService))){
+
+        //O agendamento está pendente?
+        if(schedule.status === "pending"){
+
+          //O agendamento é passado?
+          if(isPast(Number(schedule.dateService))){
+            
+            //Transformar como agendamento perdido
+            await prisma.schedule.update({
+              where: {
+                id: schedule.id
+              },
+              data: {
+                ...schedule,
+                isLost: true,
+                status: "rejected"
+              }
+            })
+
+            todaySchedules.push({
+              ...schedule,
+              isLost: true,
+              status: "rejected",
+            });
+            
+          } else{
+            todaySchedules.push(schedule);
+          }
+        } else{
+          todaySchedules.push(schedule);
+        }
+      }
+    }
+
+    return todaySchedules;
+  })
 
   //Pegando agendamento específico
   app.get("/schedules/:id", async (req) => {

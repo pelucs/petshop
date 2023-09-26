@@ -1,5 +1,7 @@
 'use client'
 
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -7,27 +9,43 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import { CreateScheduleFormData, scheduleSchema } from "@/utils/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarDays, PawPrint } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export function CreateScheduleForm(){
 
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [service, setService] = useState<string>("");
+  const [hourService, setHourService] = useState<string>("");
+
+  const { register, handleSubmit, formState: { errors } } = useForm<CreateScheduleFormData>({
+    resolver: zodResolver(scheduleSchema)
+  });
+
+  const createSchedule = async (data: CreateScheduleFormData) => {
+    console.log(data.petName, service, date, hourService)
+  }
 
   return(
-    <form className="space-y-5">
+    <form onSubmit={handleSubmit(createSchedule)} className="space-y-5">
       <div className="grid grid-cols-2 gap-5">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="pet" className="text-sm text-muted-foreground">
+          <Label htmlFor="petName" className="text-sm text-muted-foreground">
             Nome do pet
           </Label>
 
           <Input
-            id="pet"
+            id="petName"
             placeholder="Informe o nome do pet"
+            {...register("petName")}
           />
+
+          {errors.petName && (
+            <span className="text-xs text-red-500">{errors.petName.message}</span>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -35,7 +53,7 @@ export function CreateScheduleForm(){
             Serviço
           </Label>
 
-          <Select>
+          <Select onValueChange={setService}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione um serviço"/>
             </SelectTrigger>
@@ -85,7 +103,7 @@ export function CreateScheduleForm(){
             Horário
           </Label>
 
-          <Select>
+          <Select onValueChange={setHourService}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione um horário"/>
             </SelectTrigger>
@@ -108,12 +126,13 @@ export function CreateScheduleForm(){
 
         <Textarea
           id="observation"
+          {...register("observation")}
           placeholder="Escreva uam mensagem"
           className="h-40 resize-none"
         />
       </div>
 
-      <Button className="w-full gap-2">
+      <Button type="submit" className="w-full gap-2">
         Agendar 
 
         <PawPrint className="w-4 h-4"/>
