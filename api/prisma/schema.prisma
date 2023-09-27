@@ -17,6 +17,8 @@ model User {
   phone   String
   address String
 
+  //creatAt
+
   Schedule Schedule[]
 }
 
@@ -31,6 +33,8 @@ model Schedule {
   status      String
   observation String
   isLost      Boolean
+
+  //Exlcuir o isLost para incluir no Status
 
   user User @relation(fields: [userId], references: [id])
 }

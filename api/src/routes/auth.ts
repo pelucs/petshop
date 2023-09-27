@@ -1,6 +1,16 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
 import { z } from "zod";
+import { ScheduleTypes } from "./schedules";
+
+interface TutorsTypes{
+  id: string;
+  name: string;
+  email: string;
+  contact: string;
+  address: string;
+  schedules: ScheduleTypes[]
+}
 
 export async function authRoutes(app: FastifyInstance){
 
@@ -42,8 +52,25 @@ export async function authRoutes(app: FastifyInstance){
   app.get("/tutors", async () => {
 
     const tutors = await prisma.user.findMany();
-  
-    return tutors;
+
+    const schedules = await prisma.schedule.findMany();
+
+    const tutorMap: TutorsTypes[] = [];
+
+    tutors.forEach(tutor => {
+      const filteringSchedulesByTutor = schedules.filter(schedule => schedule.userId === tutor.id);
+
+      tutorMap.push({
+        id: tutor.id,
+        name: tutor.name,
+        email: tutor.email,
+        contact: tutor.phone,
+        address: tutor.address,
+        schedules: filteringSchedulesByTutor,
+      })
+    })
+
+    return tutorMap;
   });
 
 }

@@ -1,95 +1,97 @@
+'use client'
+
 import { Input } from "@/components/ui/input";
 import { HeaderAdmin } from "../HeaderAdmin";
 import { MenuAdmin } from "../MenuAdmin";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useEffect, useState } from "react";
+import { api } from "@/api/api";
+import { ScheduleTypes } from "@/utils/schedulesType";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const invoices = [
-  {
-    invoice: "Pedro Lucas",
-    paymentStatus: "83 98729-6826",
-    totalAmount: "22/09/2023",
-    paymentMethod: "12",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-]
+interface TutorsTypes{
+  id: string;
+  name: string;
+  email: string;
+  contact: string;
+  address: string;
+  schedules: ScheduleTypes[]
+}
 
 export default () => {
+
+  const [tutors, setTutors] = useState<TutorsTypes[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [search, setSearch] = useState<string>("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.get("/tutors");
+      setTutors(response.data);
+      setLoading(false)
+    };
+
+    fetchData();
+  }, []);
+
+  const filteringTutors = search.length > 0
+    ? tutors.filter(tutor => tutor.name.toLowerCase().includes(search) || tutor.email.toLowerCase().includes(search) || tutor.contact.toLowerCase().includes(search) || tutor.address.toLowerCase().includes(search))
+    : tutors;
+
   return(
     <div>
       <HeaderAdmin/>
       <MenuAdmin title="Tutores"/>
 
-      <div className="px-6 pb-6 space-y-5">
-        <Input
-          placeholder="Buscar de 45 tutores..."
-          className="w-full max-w-md"
-        />
+      {!loading ? (
+        <div className="px-6 pb-6 space-y-5">
+          <Input
+            placeholder={`Buscar de ${tutors.length} tutores...`}
+            className="w-full max-w-md"
+            onChange={e => setSearch(e.target.value.toLowerCase())}
+          />
 
-        {/* <div className="w-full h-[40vh] flex items-center justify-center border-y">
-          <span className="text-sm text-muted-foreground">
-            Nenhum tutor cadastrado
-          </span>
-        </div> */}
+          {tutors.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow className="rounded-md">
+                  <TableHead>Nome</TableHead>
+                  <TableHead>Contato</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Endereço</TableHead>
+                  <TableHead>N° de serviços</TableHead>
+                  {/* <TableHead>Data de cadastro</TableHead> */}
+                </TableRow>
+              </TableHeader>
 
-        <Table>
-          <TableHeader>
-            <TableRow className="rounded-md">
-              <TableHead>Nome</TableHead>
-              <TableHead>Contato</TableHead>
-              <TableHead>Endereço</TableHead>
-              <TableHead>N° de serviços</TableHead>
-              <TableHead>Data de cadastro</TableHead>
-            </TableRow>
-          </TableHeader>
+              <TableBody>
+                {filteringTutors.map(tutor => (
+                  <TableRow key={tutor.id}>
+                    <TableCell>{tutor.name}</TableCell>
+                    <TableCell>{tutor.contact}</TableCell>
+                    <TableCell>{tutor.email}</TableCell>
+                    <TableCell>{tutor.address}</TableCell>
+                    <TableCell>{tutor.schedules.length}</TableCell>
+                    {/* <TableCell>{tutor.totalAmount}</TableCell> */}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : ( 
+            <div className="w-full h-[40vh] flex items-center justify-center border-y">
+              <span className="text-sm text-muted-foreground">
+                Nenhum tutor cadastrado
+              </span>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="px-6 pb-6 space-y-5">
+          <Skeleton className="w-full max-w-md h-8 rounded-md"/>
 
-          <TableBody>
-            {invoices.map(invoice => (
-              <TableRow key={invoice.invoice}>
-                <TableCell>{invoice.invoice}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>R. Doutor Paulo Roberto Mayer 556</TableCell>
-                <TableCell>{invoice.paymentMethod}</TableCell>
-                <TableCell>{invoice.totalAmount}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+          <Skeleton className="w-full h-40 rounded-md"/>
+        </div>
+      )}
     </div>
   );
 }

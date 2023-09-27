@@ -9,6 +9,8 @@ import { ServicePanel } from "../ServicePanel";
 import { ScheduleTypes } from "@/utils/schedulesType";
 import { DialogSchedule } from "../DialogSchedule";
 import { useEffect, useState } from "react";
+import { FormatDate } from "../FormatDate";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const horarios = [
   "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", 
@@ -23,6 +25,7 @@ interface SchedulesPerTimeTypes{
 export default () => {
 
   const [schedulesPerTime, setSchedulesPerTime] = useState<SchedulesPerTimeTypes[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +43,7 @@ export default () => {
     }));
 
     setSchedulesPerTime(schedulePerDayMap);
+    setLoading(false);
   }
 
   return(
@@ -55,7 +59,7 @@ export default () => {
         <div className="min-h-screen flex-1 rounded-md border">
           <div className="py-4 px-5 border-b">
             <h1 className="font-semibold">
-              Horários de hoje (quinta-feira, 22 de out)
+              Horários de hoje ({<FormatDate date={new Date().getTime()} dateF="EEEE', 'd' de 'MMMM'"/>})
             </h1>
 
             <span className="text-muted-foreground text-sm">
@@ -63,35 +67,48 @@ export default () => {
             </span>
           </div>
 
-          <div className="min-h-screen grid grid-cols-4 divide-x-[1px] divide-y-[1px] divide-secondary">
-            {schedulesPerTime.map(schedulePerTime => (
-              <div key={schedulePerTime.time} className="p-2 flex flex-col">
-                <h1 className="w-full py-2 flex items-center justify-center gap-1 rounded bg-secondary">
-                  <Clock className="w-4 h-4"/>
+          {loading ? (
+            <div className="p-2 grid grid-cols-4 gap-10">
+              <Skeleton className="w-[210px] h-[105px]"/>
+              <Skeleton className="w-[210px] h-[105px]"/>
+              <Skeleton className="w-[210px] h-[105px]"/>
+              <Skeleton className="w-[210px] h-[105px]"/>
+              <Skeleton className="w-[210px] h-[105px]"/>
+              <Skeleton className="w-[210px] h-[105px]"/>
+              <Skeleton className="w-[210px] h-[105px]"/>
+              <Skeleton className="w-[210px] h-[105px]"/>
+            </div>
+          ) : (
+            <div className="min-h-screen grid grid-cols-4 divide-x-[1px] divide-y-[1px] divide-secondary">
+              {schedulesPerTime.map(schedulePerTime => (
+                <div key={schedulePerTime.time} className="p-2 flex flex-col">
+                  <h1 className="w-full py-2 flex items-center justify-center gap-1 rounded bg-secondary">
+                    <Clock className="w-4 h-4"/>
 
-                  {schedulePerTime.time}
-                </h1>
+                    {schedulePerTime.time}
+                  </h1>
 
-                <div className="flex-1 mt-5 space-y-3">
-                  {schedulePerTime.schedules.length > 0 ? (
-                    schedulePerTime.schedules.map(schedule => (
-                      <DialogSchedule 
-                        key={schedule.id} 
-                        schedule={schedule}
-                        type="calendar"
-                      />
-                    ))
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-sm text-muted-foreground">
-                      <span>
-                        Nenhum agendamento
-                      </span>
-                    </div>
-                  )}
+                  <div className="flex-1 mt-5 space-y-3">
+                    {schedulePerTime.schedules.length > 0 ? (
+                      schedulePerTime.schedules.map(schedule => (
+                        <DialogSchedule 
+                          key={schedule.id} 
+                          schedule={schedule}
+                          type="calendar"
+                        />
+                      ))
+                    ) : (
+                      <div className="w-full h-full pb-2 flex items-center justify-center text-sm text-muted-foreground">
+                        <span>
+                          Nenhum agendamento
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

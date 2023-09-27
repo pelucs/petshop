@@ -3,7 +3,7 @@ import { prisma } from "../lib/prisma";
 import { isPast, isToday } from 'date-fns';
 import { z } from "zod";
 
-interface ScheduleTypes{
+export interface ScheduleTypes{
   id: string;
   userId: string;
   tutor: string;
@@ -22,8 +22,37 @@ export async function schedulesRoutes(app: FastifyInstance){
   app.get("/schedules", async () => {
 
     const schedules = await prisma.schedule.findMany();
-  
-    return schedules;
+
+    const schedulePerDayMap = new Map<string, ScheduleTypes[]>();
+    
+    schedules.forEach(schedule => {
+      const dateService = new Date(Number(schedule.dateService)),
+            year = dateService.getFullYear(),
+            month = dateService.getMonth() + 1,
+            day = dateService.getDate();
+
+      const key = `${year}/${month}/${day}`;
+
+      if(schedulePerDayMap.has(key)){
+        schedulePerDayMap.get(key)?.push(schedule);
+      } else{
+        schedulePerDayMap.set(key, [schedule]);
+      }
+    });
+
+    const schedulePerDay: Array<{ key: string, schedules: ScheduleTypes[] }> = [];
+
+    //Ordenando os agendamentos
+    schedulePerDayMap.forEach((object, key) => {
+      const ordering = object.sort((a, b) => Number(a.dateService) - Number(b.dateService));
+
+      schedulePerDay.push({
+        key,
+        schedules: ordering
+      })
+    });
+
+    return schedulePerDay;
   });
 
   //Agendamentos de hoje
@@ -72,7 +101,7 @@ export async function schedulesRoutes(app: FastifyInstance){
     }
 
     return todaySchedules;
-  })
+  });
 
   //Pegando agendamento específico
   app.get("/schedules/:id", async (req) => {

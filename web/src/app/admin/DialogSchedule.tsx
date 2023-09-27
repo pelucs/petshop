@@ -7,6 +7,7 @@ import { AlertCircle, CheckCircle2, Clock, PawPrint, Phone, Trash2, XCircle } fr
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { StatusService } from './StatusService';
 import clsx from 'clsx';
+import { FormatDate } from './FormatDate';
 
 interface TypeButtonTrigger{
   type: string;
@@ -29,7 +30,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               <span className="flex items-center gap-1 text-muted-foreground text-xs">
                 <Clock className="w-4 h-4"/>
 
-                às 08h30
+                <FormatDate date={new Date(Number(schedule.dateService)).getTime()} dateF="'às 'HH'h'mm"/>
               </span>
             </div>
 
@@ -62,13 +63,17 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
             {schedule.service}
           </h1>
 
-          <h1 className="text-sm text-muted-foreground">
-            {schedule.petName}
-          </h1>
+          <span className="flex items-center gap-1 text-muted-foreground text-xs">
+            <PawPrint className="w-4 h-4"/>
 
-          <h1 className="text-sm text-muted-foreground">
+            {schedule.petName}
+          </span>
+
+          <span className="flex items-center gap-1 text-muted-foreground text-xs">
+            <Phone className="w-4 h-4"/>
+
             {schedule.contact}
-          </h1>
+          </span>
         </DialogTrigger>
       )}
 
@@ -81,7 +86,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
           <DialogDescription className="flex items-center gap-1">
             <Clock className="w-4 h-4"/>
             
-            quarta-feira, 22 de out - às 08h30
+            <FormatDate date={new Date(Number(schedule.dateService)).getTime()} dateF="EEEE', 'd' de 'MMMM' - 'HH'h'mm"/>
           </DialogDescription>
         </DialogHeader>
 
