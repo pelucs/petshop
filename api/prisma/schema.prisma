@@ -11,19 +11,18 @@ datasource db {
 }
 
 model User {
-  id      String @id @default(uuid())
-  name    String
-  email   String @unique
-  phone   String
-  address String
-
-  //creatAt
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String
+  address   String
+  createdAt DateTime @default(now())
 
   Schedule Schedule[]
 }
 
 model Schedule {
-  id          String  @unique @default(uuid())
+  id          String @unique @default(uuid())
   userId      String
   tutor       String
   contact     String
@@ -32,9 +31,6 @@ model Schedule {
   dateService String
   status      String
   observation String
-  isLost      Boolean
-
-  //Exlcuir o isLost para incluir no Status
 
   user User @relation(fields: [userId], references: [id])
 }

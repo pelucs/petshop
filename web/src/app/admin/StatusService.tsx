@@ -19,6 +19,12 @@ export function StatusService({ status }: StatusServiceProps){
 
           Confirmado
         </span>
+      ) : status === "lost" ? (
+        <span className="w-fit py-1 px-2 rounded flex items-center gap-1 text-red-500 bg-red-950">
+          <XCircle className="w-4 h-4"/>
+
+          Perdido
+        </span>
       ) : (
         <span className="w-fit py-1 px-2 rounded flex items-center gap-1 text-red-500 bg-red-950">
           <XCircle className="w-4 h-4"/>

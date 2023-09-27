@@ -3,14 +3,23 @@
 import { HeaderAdmin } from "../HeaderAdmin";
 import { MenuAdmin } from "../MenuAdmin";
 import { Calendar } from "@/components/ui/calendar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { subDays } from "date-fns";
+import { isWithinInterval, subDays } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, SlidersHorizontal } from "lucide-react";
 import { DialogSchedule } from "../DialogSchedule";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ScheduleTypes } from "@/utils/schedulesType";
+import { api } from "@/api/api";
+import { Skeleton } from "@/components/ui/skeleton";
+import { FormatDate } from "../FormatDate";
+
+interface SchedulesPerTimeTypes{
+  key: string;
+  schedules: ScheduleTypes[]
+}
 
 export default () => {
 
@@ -19,7 +28,34 @@ export default () => {
     to: new Date()
   });
 
-  console.log(date)
+  const [loading, setLoading] = useState<boolean>(true);
+  const [schedulesPerDay, setSchedulesPerDay] = useState<SchedulesPerTimeTypes[]>([]);
+
+  //Pegando os próximos agendamentos
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.get("/schedules");
+      getNextSchedules(response.data);
+    };
+
+    fetchData();
+  }, [date]);
+
+  const getNextSchedules = (data: SchedulesPerTimeTypes[]) => {
+    const schedulesPerDayMap: SchedulesPerTimeTypes[] = [];
+
+    data.forEach(day => {
+      if(isWithinInterval(new Date(day.key).getTime(), { //O agendamento está no intervalo das datas estabelecidas?
+        start: new Date(Number(date?.from)).getTime(), 
+        end: new Date(Number(date?.to)).getTime() 
+      })){
+        schedulesPerDayMap.push(day);
+      }
+    });
+
+    setSchedulesPerDay(schedulesPerDayMap);
+    setLoading(false);
+  }
 
   return(
     <div>
@@ -48,7 +84,7 @@ export default () => {
         <div className="flex-1">
           <div className="flex items-center justify-between">
             <Input
-              placeholder="Buscar de 425 agendamentos..."
+              placeholder="Buscar agendamento..."
               className="w-full max-w-md"
             />
 
@@ -68,45 +104,33 @@ export default () => {
           </div>
 
           <div className="mt-5 px-4 border rounded-md divide-y-[1px]">
-            <div className="py-4">
-              <h1 className="font-semibold flex items-center gap-2">
-                <CalendarDays className="w-4 h-4"/>
+            {!loading ? (
+              schedulesPerDay.length > 0 ? (
+                schedulesPerDay.map(day => (
+                  <div key={day.key} className="py-4">
+                    <h1 className="font-semibold flex items-center gap-2">
+                      <CalendarDays className="w-4 h-4"/>
 
-                quarta-feira, 22 de out (hoje)
-              </h1>
+                      <FormatDate date={new Date(day.key).getTime()} dateF="EEEE', 'd' de 'MMMM'"/>
+                    </h1>
 
-              <div className="mt-2 grid grid-cols-2 gap-x-5">
-                <DialogSchedule type="aside"/>
-                <DialogSchedule type="aside"/>
-                <DialogSchedule type="aside"/>
+                    <div className="mt-2 grid grid-cols-2 gap-x-5">
+                      {day.schedules.map(schedules => (
+                        <DialogSchedule key={schedules.id} schedule={schedules} type="aside"/>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ): (
+                <div className="h-[205px] flex items-center justify-center text-sm text-center text-muted-foreground">
+                  <span>Nenhum agendamento registrado</span>
+                </div>
+              )
+            ) : (
+              <div>
+                <Skeleton/>
               </div>
-            </div>
-
-            <div className="py-4">
-              <h1 className="font-semibold flex items-center gap-2">
-                <CalendarDays className="w-4 h-4"/>
-
-                quarta-feira, 22 de out (hoje)
-              </h1>
-
-              <div className="mt-2 grid grid-cols-2 gap-x-5">
-                <DialogSchedule type="aside"/>
-                <DialogSchedule type="aside"/>
-              </div>
-            </div>
-
-            <div className="py-4">
-              <h1 className="font-semibold flex items-center gap-2">
-                <CalendarDays className="w-4 h-4"/>
-
-                quarta-feira, 22 de out (hoje)
-              </h1>
-
-              <div className="mt-2 grid grid-cols-2 gap-x-5">
-                <DialogSchedule type="aside"/>
-                <DialogSchedule type="aside"/>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

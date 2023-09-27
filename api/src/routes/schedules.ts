@@ -13,7 +13,6 @@ export interface ScheduleTypes{
   observation: string;
   dateService: string;
   status: string;
-  isLost: boolean;
 }
 
 export async function schedulesRoutes(app: FastifyInstance){
@@ -80,15 +79,13 @@ export async function schedulesRoutes(app: FastifyInstance){
               },
               data: {
                 ...schedule,
-                isLost: true,
-                status: "rejected"
+                status: "lost"
               }
             })
 
             todaySchedules.push({
               ...schedule,
-              isLost: true,
-              status: "rejected",
+              status: "lost",
             });
             
           } else{
@@ -133,7 +130,6 @@ export async function schedulesRoutes(app: FastifyInstance){
       dateService: z.string(),
       status: z.string(),
       observation: z.string(),
-      isLost: z.boolean(),
     })
 
     const data = bodySchema.parse(req.params);
@@ -148,7 +144,6 @@ export async function schedulesRoutes(app: FastifyInstance){
         dateService: data.dateService,
         status: data.status,
         observation: data.observation,
-        isLost: data.isLost,
       }
     });
   

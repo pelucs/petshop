@@ -1,12 +1,12 @@
 'use client'
 
+import clsx from 'clsx';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ScheduleTypes } from '@/utils/schedulesType';
-import { AlertCircle, CheckCircle2, Clock, PawPrint, Phone, Trash2, XCircle } from 'lucide-react';
+import { CheckCircle2, Clock, PawPrint, Phone, Trash2, XCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { StatusService } from './StatusService';
-import clsx from 'clsx';
 import { FormatDate } from './FormatDate';
 
 interface TypeButtonTrigger{
@@ -22,7 +22,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
               <h1>
-                Banho e tosa
+                {schedule.service}
               </h1>
 
               <Separator orientation='vertical' className="h-4"/>
@@ -37,13 +37,13 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
             <span className="flex items-center gap-1 text-muted-foreground text-xs">
               <PawPrint className="w-4 h-4"/>
 
-              Maria Zaya
+              {schedule.petName}
             </span>
 
             <span className="flex items-center gap-1 text-muted-foreground text-xs">
               <Phone className="w-4 h-4"/>
 
-              (83) 98729-6826
+              {schedule.contact}
             </span>
           </div>
 
@@ -54,7 +54,8 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
           className={clsx("w-full py-2 px-2 flex flex-col items-start gap-2 border-l-4 rounded-tr rounded-br hover:bg-secondary transition-all", {
             "border-yellow-500": schedule.status === "pending",
             "border-green-500": schedule.status === "confirmed",
-            "border-red-500": schedule.status === "rejected"
+            "border-red-500": schedule.status === "rejected" || schedule.status === "lost",
+
           })}
         >
           <StatusService status={schedule?.status}/>
@@ -127,17 +128,29 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
 
           <div className="flex items-center gap-2">
             <div className="flex-1 grid grid-cols-2 gap-2">
-              <Button className="text-base bg-green-500 text-primary">
-                <CheckCircle2 className="w-4 h-4 mr-2"/>
+              {schedule.status === "pending" ? (
+                <Button className="text-base bg-green-500 text-primary">
+                  <CheckCircle2 className="w-4 h-4 mr-2"/>
 
-                Confirmar
-              </Button>
+                  Confirmar
+                </Button>
+              ) : schedule.status === "confirmed" ? (
+                <Button className="text-base bg-green-500 text-primary">
+                  <CheckCircle2 className="w-4 h-4 mr-2"/>
 
-              <Button variant="destructive" className="text-base">
-                <XCircle className="w-4 h-4 mr-2"/>
+                  Concluir
+                </Button>
+              ) : (
+                ""
+              )}
 
-                Rejeitar
-              </Button>
+              {(schedule.status === "pending" || schedule.status === "confirmed") && (
+                <Button variant="destructive" className="text-base">
+                  <XCircle className="w-4 h-4 mr-2"/>
+
+                  Rejeitar
+                </Button>
+              )}
             </div>
 
             <Button title="Excluir" variant="destructive">

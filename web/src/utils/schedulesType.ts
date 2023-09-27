@@ -8,5 +8,4 @@ export interface ScheduleTypes{
   observation: string;
   dateService: string;
   status: string;
-  isLost: boolean;
 }

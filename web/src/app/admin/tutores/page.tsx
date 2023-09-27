@@ -15,6 +15,7 @@ interface TutorsTypes{
   email: string;
   contact: string;
   address: string;
+  createdAt: string;
   schedules: ScheduleTypes[]
 }
 
@@ -60,7 +61,7 @@ export default () => {
                   <TableHead>Email</TableHead>
                   <TableHead>Endereço</TableHead>
                   <TableHead>N° de serviços</TableHead>
-                  {/* <TableHead>Data de cadastro</TableHead> */}
+                  <TableHead>Data de cadastro</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -72,7 +73,7 @@ export default () => {
                     <TableCell>{tutor.email}</TableCell>
                     <TableCell>{tutor.address}</TableCell>
                     <TableCell>{tutor.schedules.length}</TableCell>
-                    {/* <TableCell>{tutor.totalAmount}</TableCell> */}
+                    <TableCell>{tutor.createdAt}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

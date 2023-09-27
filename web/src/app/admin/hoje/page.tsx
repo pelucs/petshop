@@ -36,13 +36,14 @@ export default () => {
     fetchData();
   }, []);
 
+  //Separando os agendamentos por horário
   const separatePerHours = (schedules: ScheduleTypes[]) => {
-    const schedulePerDayMap = horarios.map(time => ({
+    const schedulePerTimeMap = horarios.map(time => ({
       time,
       schedules: schedules.filter(schedule => format(new Date(Number(schedule.dateService)), "HH':'mm'") === time)
     }));
 
-    setSchedulesPerTime(schedulePerDayMap);
+    setSchedulesPerTime(schedulePerTimeMap);
     setLoading(false);
   }
 

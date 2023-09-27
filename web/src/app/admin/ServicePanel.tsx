@@ -7,6 +7,7 @@ import { api } from "@/api/api";
 import { ScheduleTypes } from "@/utils/schedulesType";
 import { FormatDate } from "./FormatDate";
 import { Skeleton } from "@/components/ui/skeleton";
+import { isPast, isToday } from "date-fns";
 
 interface SchedulesPerTimeTypes{
   key: string;
@@ -21,15 +22,24 @@ export function ServicePanel(){
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get("/schedules");
-      setSchedulesPerDay(response.data);
-
-      setLoading(false);
+      schedulesFromTodayOnnwards(response.data);
     };
 
     fetchData();
   }, []);
 
-  console.log(new Date("2023-09-27, 08:00").getTime())
+  const schedulesFromTodayOnnwards = (data: SchedulesPerTimeTypes[]) => {
+    const schedulesMap: SchedulesPerTimeTypes[] = [];
+
+    data.forEach(day => {
+      if(!isPast(new Date(day.key).getTime()) || isToday(new Date(day.key).getTime())){
+        schedulesMap.push(day);
+      }
+    });
+
+    setSchedulesPerDay(schedulesMap);
+    setLoading(false);
+  }
 
   return(
     <div className="flex-1 rounded-md border bg-card">
