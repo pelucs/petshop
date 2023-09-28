@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarDays, PawPrint } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { pt } from "date-fns/locale";
 
 export function CreateScheduleForm(){
 
@@ -93,6 +94,7 @@ export function CreateScheduleForm(){
                 selected={date}
                 onSelect={setDate}
                 className="border rounded-md"
+                locale={pt}
               />
             </PopoverContent>
           </Popover>

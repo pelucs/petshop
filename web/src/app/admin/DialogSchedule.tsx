@@ -8,6 +8,7 @@ import { CheckCircle2, Clock, PawPrint, Phone, Trash2, XCircle } from 'lucide-re
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { StatusService } from './StatusService';
 import { FormatDate } from './FormatDate';
+import { api } from '@/api/api';
 
 interface TypeButtonTrigger{
   type: string;
@@ -15,6 +16,16 @@ interface TypeButtonTrigger{
 }
 
 export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
+
+  const confirmedSchedule = async (id: string, status: string) => {
+    await api.put(`/schedules/${id}`, {
+      status,
+    })
+    .then(() => {
+      window.location.reload();
+    })
+  }
+
   return(
     <Dialog>
       {type === "aside" ? (
@@ -129,13 +140,19 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
           <div className="flex items-center gap-2">
             <div className="flex-1 grid grid-cols-2 gap-2">
               {schedule.status === "pending" ? (
-                <Button className="text-base bg-green-500 text-primary">
+                <Button 
+                  onClick={() => confirmedSchedule(schedule.id, "confirmed")} 
+                  className="text-base bg-green-500 text-primary"
+                >
                   <CheckCircle2 className="w-4 h-4 mr-2"/>
 
                   Confirmar
                 </Button>
               ) : schedule.status === "confirmed" ? (
-                <Button className="text-base bg-green-500 text-primary">
+                <Button 
+                  onClick={() => confirmedSchedule(schedule.id, "conclued")} 
+                  className="text-base bg-green-500 text-primary"
+                >
                   <CheckCircle2 className="w-4 h-4 mr-2"/>
 
                   Concluir
@@ -145,7 +162,12 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               )}
 
               {(schedule.status === "pending" || schedule.status === "confirmed") && (
-                <Button variant="destructive" className="text-base">
+                <Button 
+                  onClick={() => confirmedSchedule(schedule.id, "rejected")} 
+                  variant="destructive" 
+                  className="text-base"
+                >
+
                   <XCircle className="w-4 h-4 mr-2"/>
 
                   Rejeitar

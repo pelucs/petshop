@@ -13,7 +13,7 @@ import { z } from "zod";
 const userSchema = z.object({
   name: z.string().nonempty("*Este campo é obrigatório"),
   email: z.string().nonempty("*Este campo é obrigadtório").email(),
-  contact: z.string().nonempty("*Este campo é obrigatório"),
+  phone: z.string().nonempty("*Este campo é obrigatório"),
   address: z.string().nonempty("*Este campo é obrigatório"),
 });
 
@@ -29,11 +29,14 @@ export function CreateUserForm(){
     await api.post("/register", {
       name: data.name,
       email: data.email,
-      contact: data.contact,
+      phone: data.phone,
       address: data.address,
     })
     .then(res => {
-      localStorage.setItem("user", res.data);
+
+      let user: { name: string, phone: string, address: string, email: string } = res.data;
+
+      localStorage.setItem("user", JSON.stringify({ name: user.name, contact: user.phone }));
       window.location.reload();
     });
   }
@@ -63,13 +66,13 @@ export function CreateUserForm(){
           </Label>
 
           <Input
-            id="contact"
+            id="phone"
             placeholder="Seu contato"
-            {...register("contact")}
+            {...register("phone")}
           />
 
-          {errors.contact && (
-            <span className="text-xs text-red-500">{errors.contact.message}</span>
+          {errors.phone && (
+            <span className="text-xs text-red-500">{errors.phone.message}</span>
           )}
         </div>
       </div>

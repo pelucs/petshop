@@ -150,6 +150,33 @@ export async function schedulesRoutes(app: FastifyInstance){
     return schedules;
   });
 
+  //Atualizando o meu agendamento
+  app.put("/schedules/:id", async (req) => {
+
+    const paramsScheme = z.object({
+      id: z.string().uuid()
+    });
+
+    const { id } = paramsScheme.parse(req.params);
+
+    const bodyScheme = z.object({
+      status: z.string()
+    });
+
+    const { status } = bodyScheme.parse(req.body);
+
+    const schedule = await prisma.schedule.update({
+      where: {
+        id,
+      },
+      data: {
+        status,
+      }
+    });
+
+    return schedule;
+  })
+
   //Deletando um agendamento
   app.delete("/schedules/:id", async (req) => {
 

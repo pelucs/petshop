@@ -12,6 +12,7 @@ import { ScheduleTypes } from "@/utils/schedulesType";
 import { api } from "@/api/api";
 import { FormatDate } from "../FormatDate";
 import { Skeleton } from "@/components/ui/skeleton";
+import { pt } from "date-fns/locale";
 
 interface SchedulesPerTimeTypes{
   key: string;
@@ -68,12 +69,16 @@ export default () => {
             defaultMonth={date?.from}
             selected={date}
             onSelect={setDate}
-            numberOfMonths={2}
             className="w-auto border rounded-md"
             disabled={(date) =>
               date < new Date()
             }
+            locale={pt}
           />
+
+          <p className="w-[250px] mt-2 py-2 px-4 rounded-md bg-secondary text-xs text-muted-foreground whitespace-pre-wrap">
+            Escolha as datas para filtrar os agendamentos
+          </p>
         </div>
 
         <div className="flex-1 rounded-md border">
@@ -101,7 +106,7 @@ export default () => {
                         <FormatDate date={new Date(day.key).getTime()} dateF="EEEE', 'd' de 'MMMM'"/>
                       </h1>
     
-                      <div className="mt-2 flex flex-col">
+                      <div className="mt-2 grid grid-cols-2 gap-x-5">
                         {day.schedules.map(schedules => (
                           <DialogSchedule key={schedules.id} schedule={schedules} type="aside"/>
                         ))}

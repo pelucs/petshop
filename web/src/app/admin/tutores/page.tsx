@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { api } from "@/api/api";
 import { ScheduleTypes } from "@/utils/schedulesType";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FormatDate } from "../FormatDate";
 
 interface TutorsTypes{
   id: string;
@@ -15,7 +16,7 @@ interface TutorsTypes{
   email: string;
   contact: string;
   address: string;
-  createdAt: string;
+  createdAt: Date;
   schedules: ScheduleTypes[]
 }
 
@@ -73,7 +74,7 @@ export default () => {
                     <TableCell>{tutor.email}</TableCell>
                     <TableCell>{tutor.address}</TableCell>
                     <TableCell>{tutor.schedules.length}</TableCell>
-                    <TableCell>{tutor.createdAt}</TableCell>
+                    <TableCell>{<FormatDate date={new Date(tutor.createdAt).getTime()} dateF="dd'/'LL'/'y"/>}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

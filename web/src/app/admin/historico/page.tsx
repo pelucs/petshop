@@ -5,7 +5,7 @@ import { MenuAdmin } from "../MenuAdmin";
 import { Calendar } from "@/components/ui/calendar";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { isWithinInterval, subDays } from "date-fns";
+import { addDays, isWithinInterval, subDays } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, SlidersHorizontal } from "lucide-react";
@@ -15,6 +15,7 @@ import { ScheduleTypes } from "@/utils/schedulesType";
 import { api } from "@/api/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormatDate } from "../FormatDate";
+import { pt } from "date-fns/locale";
 
 interface SchedulesPerTimeTypes{
   key: string;
@@ -24,8 +25,8 @@ interface SchedulesPerTimeTypes{
 export default () => {
 
   const [date, setDate] = useState<DateRange | undefined>({
-    from: subDays(new Date(), 10),
-    to: new Date()
+    from: new Date(),
+    to: addDays(new Date(), 20),
   });
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -71,9 +72,7 @@ export default () => {
             selected={date}
             onSelect={setDate}
             className="w-auto border rounded-md"
-            disabled={(date) =>
-              date > new Date() || date < new Date("1900-01-01")
-            }
+            locale={pt}
           />
 
           <p className="w-[250px] mt-2 py-2 px-4 rounded-md bg-secondary text-xs text-muted-foreground whitespace-pre-wrap">
@@ -127,8 +126,11 @@ export default () => {
                 </div>
               )
             ) : (
-              <div>
-                <Skeleton/>
+              <div className="py-4 grid grid-cols-2 gap-5">
+                <Skeleton className="h-20 rounded-md"/>
+                <Skeleton className="h-20 rounded-md"/>
+                <Skeleton className="h-20 rounded-md"/>
+                <Skeleton className="h-20 rounded-md"/>
               </div>
             )}
           </div>
