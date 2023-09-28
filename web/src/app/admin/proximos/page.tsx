@@ -6,7 +6,7 @@ import { MenuAdmin } from "../MenuAdmin";
 import { DialogSchedule } from "../DialogSchedule";
 import { Calendar } from "@/components/ui/calendar";
 import { useEffect, useState } from "react";
-import { addDays, isFuture, isPast, isToday, isWithinInterval } from "date-fns";
+import { addDays, isWithinInterval } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { ScheduleTypes } from "@/utils/schedulesType";
 import { api } from "@/api/api";
@@ -70,10 +70,10 @@ export default () => {
             selected={date}
             onSelect={setDate}
             className="w-auto border rounded-md"
+            locale={pt} 
             disabled={(date) =>
               date < new Date()
             }
-            locale={pt}
           />
 
           <p className="w-[250px] mt-2 py-2 px-4 rounded-md bg-secondary text-xs text-muted-foreground whitespace-pre-wrap">

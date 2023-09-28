@@ -15,8 +15,21 @@ import { CalendarDays, PawPrint } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { pt } from "date-fns/locale";
+import { api } from "@/api/api";
 
-export function CreateScheduleForm(){
+import decode from 'jwt-decode';
+
+interface CreateScheduleFormProps{
+  code: string;
+}
+
+interface User{
+  sub: string;
+  tutor: string;
+  contact: string;
+}
+
+export function CreateScheduleForm({ code }: CreateScheduleFormProps){
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [service, setService] = useState<string>("");
@@ -26,13 +39,42 @@ export function CreateScheduleForm(){
     resolver: zodResolver(scheduleSchema)
   });
 
+  const user: User = decode(code);
+
   const createSchedule = async (data: CreateScheduleFormData) => {
-    console.log(data.petName, service, date, hourService)
+
+    //Formatando a data do agendamento
+    const dateSelected = new Date(Number(date)),
+          year = dateSelected.getFullYear(),
+          month = dateSelected.getMonth() + 1,
+          day = dateSelected.getDate();
+
+    const dateService = new Date(`${year}-${month}-${day} ${hourService}`).getTime().toString();
+          
+    await api.post("/schedules", {
+      userId: user.sub,
+      petName: data.petName,
+      observation: data.observation,
+      status: "pending",
+      service,
+      dateService,
+    })
+    .then(() => {
+      alert("Agendamento criando com sucesso!");
+      window.location.reload()
+    })
   }
 
   return(
     <form onSubmit={handleSubmit(createSchedule)} className="space-y-5">
-      <div className="grid grid-cols-2 gap-5">
+      <div>
+        <h1 className="text-2xl font-semibold">Olá, {user.tutor.split(' ')[0]}</h1>
+        <p className="text-sm text-muted-foreground">
+          Preencha os campos corretamente
+        </p>
+      </div>
+
+      <div className="mt-5 grid grid-cols-2 gap-5">
         <div className="flex flex-col gap-2">
           <Label htmlFor="petName" className="text-sm text-muted-foreground">
             Nome do pet
@@ -111,11 +153,11 @@ export function CreateScheduleForm(){
             </SelectTrigger>
 
             <SelectContent>
-              <SelectItem value="08h30">08h30</SelectItem>
-              <SelectItem value="09h00">09h00</SelectItem>
-              <SelectItem value="09h30">09h30</SelectItem>
-              <SelectItem value="10h00">10h00</SelectItem>
-              <SelectItem value="10h30">10h30</SelectItem>
+              <SelectItem value="08:30">08h30</SelectItem>
+              <SelectItem value="09:00">09h00</SelectItem>
+              <SelectItem value="09:30">09h30</SelectItem>
+              <SelectItem value="10:00">10h00</SelectItem>
+              <SelectItem value="10:30">10h30</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -8,40 +8,24 @@ import { MoveLeft } from "lucide-react";
 import { CreateUserForm } from "./CreateUserForm";
 import { Separator } from "@/components/ui/separator";
 import { CreateScheduleForm } from "./CreateScheduleForm";
-
-import bg from '../../assets/bg.jpg';
 import { Skeleton } from "@/components/ui/skeleton";
+
+import bg from '../../assets/bg.jpeg';
 
 export default () => {
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [tutor, setTutor] = useState<string>("");
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuth, setIsAuth] = useState<string>("");
 
   useEffect(() => {
-
-    const isAuth = localStorage.getItem("user"),
-          userF = isAuth && JSON.parse(isAuth);
-
+    const user = localStorage.getItem("user");
           
-    if(userF){
-      setTutor(userF.name.split(' ')[0]);
+    if(user){
+      setIsAuth(user);
     }
     
-    setIsAuthenticated(isAuth ? true : false);
     setLoading(false);
   }, []);
-
-  // if(isAuthenticated){
-  //   const currentUser = localStorage.getItem("user"),
-  //         userF = currentUser && JSON.parse(currentUser);
-
-  //   if(userF){
-  //     const nameF = userF.name.split('')[0];
-
-  //     setTutor(nameF);
-  //   }
-  // // }
 
   return(
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
@@ -55,7 +39,7 @@ export default () => {
             Voltar
           </Link>
 
-          {!isAuthenticated ? (
+          {!isAuth ? (
             <div className="mt-10">
               <div>
                 <h1 className="text-2xl font-semibold">Registrar</h1>
@@ -80,15 +64,8 @@ export default () => {
             </div>
           ) : (
             <div className="mt-10">
-              <div>
-                <h1 className="text-2xl font-semibold">Olá, {tutor}</h1>
-                <p className="text-sm text-muted-foreground">
-                  Preencha os campos corretamente
-                </p>
-              </div>
-
-              <div className="mt-5 space-y-5">
-                <CreateScheduleForm/>
+              <div className="space-y-5">
+                <CreateScheduleForm code={isAuth}/>
 
                 <Separator/>
 
@@ -107,9 +84,7 @@ export default () => {
       )}
 
       {/* RIGHT */}
-      <div className="sticky top-0 bg-primary/5 border-l overflow-hidden">
-        {/* <Image src={bg} alt="Cachorro sorrindo" className="h-full"/> */}
-      </div>
+      <div className="sticky top-0 border-l bg-primary/5"/>
     </div>
   );
 }

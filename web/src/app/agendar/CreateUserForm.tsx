@@ -33,10 +33,7 @@ export function CreateUserForm(){
       address: data.address,
     })
     .then(res => {
-
-      let user: { name: string, phone: string, address: string, email: string } = res.data;
-
-      localStorage.setItem("user", JSON.stringify({ name: user.name, contact: user.phone }));
+      localStorage.setItem("user", res.data);
       window.location.reload();
     });
   }

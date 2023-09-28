@@ -24,8 +24,6 @@ model User {
 model Schedule {
   id          String @unique @default(uuid())
   userId      String
-  tutor       String
-  contact     String
   petName     String
   service     String
   dateService String

@@ -6,8 +6,6 @@ import { z } from "zod";
 export interface ScheduleTypes{
   id: string;
   userId: string;
-  tutor: string;
-  contact: string;
   petName: string;
   service: string;
   observation: string;
@@ -123,8 +121,6 @@ export async function schedulesRoutes(app: FastifyInstance){
 
     const bodySchema = z.object({
       userId: z.string(),
-      tutor: z.string(),
-      contact: z.string(),
       petName: z.string(),
       service: z.string(),
       dateService: z.string(),
@@ -132,13 +128,11 @@ export async function schedulesRoutes(app: FastifyInstance){
       observation: z.string(),
     })
 
-    const data = bodySchema.parse(req.params);
+    const data = bodySchema.parse(req.body);
   
     const schedules = await prisma.schedule.create({
       data: {
         userId: data.userId,
-        tutor: data.tutor,
-        contact: data.contact,
         petName: data.petName,
         service: data.service,
         dateService: data.dateService,

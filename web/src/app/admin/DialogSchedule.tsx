@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ScheduleTypes } from '@/utils/schedulesType';
-import { CheckCircle2, Clock, PawPrint, Phone, Trash2, XCircle } from 'lucide-react';
+import { CheckCircle2, Clock, MessageCircle, PawPrint, Phone, Trash2, XCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { StatusService } from './StatusService';
 import { FormatDate } from './FormatDate';
@@ -51,11 +51,15 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               {schedule.petName}
             </span>
 
-            <span className="flex items-center gap-1 text-muted-foreground text-xs">
-              <Phone className="w-4 h-4"/>
+            {schedule.observation && (
+              <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                <MessageCircle className="w-4 h-4"/>
 
-              {schedule.contact}
-            </span>
+                <span className="w-full max-w-[210px] whitespace-nowrap text-ellipsis overflow-hidden ">
+                  {schedule.observation}
+                </span>
+              </div>
+            )}
           </div>
 
           <StatusService status={schedule?.status}/>
@@ -75,17 +79,23 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
             {schedule.service}
           </h1>
 
-          <span className="flex items-center gap-1 text-muted-foreground text-xs">
+          <div className="flex items-center gap-1 text-muted-foreground text-xs">
             <PawPrint className="w-4 h-4"/>
 
-            {schedule.petName}
-          </span>
+            <span>
+              {schedule.petName}
+            </span>
+          </div>
 
-          <span className="flex items-center gap-1 text-muted-foreground text-xs">
-            <Phone className="w-4 h-4"/>
+          {schedule.observation && (
+            <div className="flex items-center gap-1 text-muted-foreground text-xs">
+              <MessageCircle className="w-4 h-4"/>
 
-            {schedule.contact}
-          </span>
+              <span className="w-full max-w-[210px] whitespace-nowrap text-ellipsis overflow-hidden ">
+                {schedule.observation}
+              </span>
+            </div>
+          )}
         </DialogTrigger>
       )}
 
@@ -117,15 +127,15 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               <h1>{schedule?.petName}</h1>
             </div>
 
-            <div>
+            {/* <div>
               <span className="text-sm text-muted-foreground">Tutor</span>
               <h1>{schedule?.tutor}</h1>
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
               <span className="text-sm text-muted-foreground">Contato</span>
               <h1>{schedule?.contact}</h1>
-            </div>
+            </div> */}
           </div>
 
           {schedule?.observation && (
@@ -167,7 +177,6 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
                   variant="destructive" 
                   className="text-base"
                 >
-
                   <XCircle className="w-4 h-4 mr-2"/>
 
                   Rejeitar

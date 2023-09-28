@@ -44,9 +44,18 @@ export async function authRoutes(app: FastifyInstance){
       });
     }
 
-    // APLICAR TOKEN JWT
+    const token = app.jwt.sign(
+      {
+        tutor: user?.name,
+        contact: user?.phone
+      },
+      {
+        sub: user?.id,
+        expiresIn: '30 days'
+      }
+    );
   
-    return user;
+    return token;
   });
 
   //Resgatando todos os tutores
