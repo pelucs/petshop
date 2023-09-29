@@ -1,18 +1,32 @@
+'use client'
+
 import Link from "next/link";
+
 import { HeaderAdmin } from "./HeaderAdmin";
 import { MenuAdmin } from "./MenuAdmin";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, CalendarClock, CalendarDays, CheckCircle, CheckCircle2, Clock, MoveRight, User, XCircle } from "lucide-react";
+import { CalendarClock, CalendarDays, CheckCircle, Clock, MoveRight, User } from "lucide-react";
 import { ServicePanel } from "./ServicePanel";
-
-const schedules = [
-  { service: "Banho e tosa", hour: "08h30", status: "Pendente" },
-  { service: "Vacina", hour: "09h30", status: "Confirmado" },
-  { service: "Tosa", hour: "08h30", status: "Rejeitado" },
-  { service: "Banho", hour: "08h30", status: "Concluído" },
-];
+import { StatusService } from "./StatusService";
+import { useEffect, useState } from "react";
+import { ScheduleTypes } from "@/utils/schedulesType";
+import { api } from "@/api/api";
+import { FormatDate } from "./FormatDate";
 
 export default () => {
+
+  const [schedules, setSchedules] = useState<ScheduleTypes[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.get("/schedules/today");
+      setSchedules(response.data);
+    };
+
+    fetchData();
+  }, []);
+
   return(
     <div>
       <HeaderAdmin/>
@@ -143,29 +157,11 @@ export default () => {
                   <span className="flex items-center gap-1 text-muted-foreground text-sm">
                     <Clock className="w-4 h-4"/>
 
-                    às {schedule.hour}
+                    às <FormatDate date={new Date(Number(schedule.dateService)).getTime()} dateF="HH':'mm'"/>
                   </span>
                 </div>
 
-                {schedule.status === "Pendente" ? (
-                  <span className="py-1 px-2 rounded flex items-center gap-1 text-yellow-500 bg-yellow-950">
-                    <AlertCircle className="w-4 h-4"/>
-
-                    Pendente
-                  </span>
-                ) : schedule.status === "Confirmado" ? (
-                  <span className="py-1 px-2 rounded flex items-center gap-1 text-green-500 bg-green-950">
-                    <CheckCircle2 className="w-4 h-4"/>
-
-                    Confirmado
-                  </span>
-                ) : (
-                  <span className="py-1 px-2 rounded flex items-center gap-1 text-red-500 bg-red-950">
-                    <XCircle className="w-4 h-4"/>
-
-                    Rejeitado
-                  </span>
-                )}
+                <StatusService status={schedule.status}/>
               </div>
             ))}
           </div>

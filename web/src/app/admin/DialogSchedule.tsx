@@ -11,6 +11,8 @@ import { FormatDate } from './FormatDate';
 import { api } from '@/api/api';
 import { useEffect, useState } from 'react';
 import { TutorsTypes } from '@/utils/tutorTypes';
+import { Popover, PopoverTrigger } from '@/components/ui/popover';
+import { PopoverContent } from '@radix-ui/react-popover';
 
 interface TypeButtonTrigger{
   type: string;
@@ -89,7 +91,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
         <DialogTrigger 
           className={clsx("w-full py-2 px-2 flex flex-col items-start gap-2 border-l-4 rounded-tr rounded-br hover:bg-secondary transition-all", {
             "border-yellow-500": schedule.status === "pending",
-            "border-green-500": schedule.status === "confirmed",
+            "border-green-500": schedule.status === "confirmed" || schedule.status === "conclued",
             "border-red-500": schedule.status === "rejected" || schedule.status === "lost",
           })}
         >
@@ -172,7 +174,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               {schedule.status === "pending" ? (
                 <Button 
                   onClick={() => confirmedSchedule(schedule.id, "confirmed")} 
-                  className="text-base bg-green-500 text-primary"
+                  className="text-base text-secondary hover:bg-green-400 bg-green-500"
                 >
                   <CheckCircle2 className="w-4 h-4 mr-2"/>
 
@@ -204,9 +206,17 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               )}
             </div>
 
-            <Button title="Excluir" variant="destructive">
-              <Trash2 className="w-5 h-5"/>
-            </Button>
+            <Popover>
+              <Button variant={"destructive"} asChild>
+                <PopoverTrigger title="Excluir">
+                  <Trash2 className="w-5 h-5"/>
+                </PopoverTrigger>
+              </Button>
+
+              <PopoverContent>
+                Olá
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </DialogContent>

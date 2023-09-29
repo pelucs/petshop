@@ -9,6 +9,11 @@ GET http://localhost:3333/schedules/f6819a21-2b77-4448-8d5b-875c4fd35b90
 
 ###
 
+# @Deletando agendamento
+DELETE http://localhost:3333/schedules/f48e8a07-8dd5-41ac-a813-f94c49e7f09d
+
+###
+
 # @Tutors
 GET http://localhost:3333/tutors
 

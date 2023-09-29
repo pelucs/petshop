@@ -79,7 +79,7 @@ export function ServicePanel(){
             </div>
           )
         ) : (
-          <div className="space-y-3">
+          <div className="mt-3 space-y-3">
             <Skeleton className="w-full h-24 rounded-md"/>
             <Skeleton className="w-full h-24 rounded-md"/>
             <Skeleton className="w-full h-24 rounded-md"/>

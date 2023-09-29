@@ -1,20 +1,20 @@
 'use client'
 
-import { CalendarDays } from "lucide-react";
-import { HeaderAdmin } from "../HeaderAdmin";
-import { MenuAdmin } from "../MenuAdmin";
-import { DialogSchedule } from "../DialogSchedule";
-import { Calendar } from "@/components/ui/calendar";
-import { useEffect, useState } from "react";
-import { addDays, isWithinInterval } from "date-fns";
-import { DateRange } from "react-day-picker";
-import { ScheduleTypes } from "@/utils/schedulesType";
-import { api } from "@/api/api";
-import { FormatDate } from "../FormatDate";
-import { Skeleton } from "@/components/ui/skeleton";
 import { pt } from "date-fns/locale";
+import { api } from "@/api/api";
+import { Calendar } from "@/components/ui/calendar";
+import { Skeleton } from "@/components/ui/skeleton";
+import { MenuAdmin } from "../MenuAdmin";
+import { DateRange } from "react-day-picker";
+import { FormatDate } from "../FormatDate";
+import { HeaderAdmin } from "../HeaderAdmin";
+import { CalendarDays } from "lucide-react";
+import { ScheduleTypes } from "@/utils/schedulesType";
+import { DialogSchedule } from "../DialogSchedule";
+import { useCallback, useEffect, useState } from "react";
+import { addDays, isWithinInterval } from "date-fns";
 
-interface SchedulesPerTimeTypes{
+interface SchedulesPerDayTypes{
   key: string;
   schedules: ScheduleTypes[]
 }
@@ -28,27 +28,30 @@ export default () => {
   });
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [schedulesPerDay, setSchedulesPerDay] = useState<SchedulesPerTimeTypes[]>([]);
+  const [schedulesPerDay, setSchedulesPerDay] = useState<SchedulesPerDayTypes[]>([]);
 
-  //Pegando os próximos agendamentos
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = useCallback(async () => {
+    try {
       const response = await api.get("/schedules");
       getNextSchedules(response.data);
-    };
-
-    fetchData();
+    } catch (error) {
+      // Lidar com o erro da requisição
+    }
   }, [date]);
+  
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  const getNextSchedules = (data: SchedulesPerTimeTypes[]) => {
-    const schedulesPerDayMap: SchedulesPerTimeTypes[] = [];
+  const getNextSchedules = (data: SchedulesPerDayTypes[]) => {
+    const schedulesPerDayMap: SchedulesPerDayTypes[] = [];
 
     data.forEach(day => {
-      if(isWithinInterval(new Date(day.key).getTime(), { //O agendamento está no intervalo das datas estabelecidas?
+      if(isWithinInterval(new Date(day.key), { 
         start: new Date(Number(date?.from)).getTime(), 
-        end: new Date(Number(date?.to)).getTime() 
-      })){
-        schedulesPerDayMap.push(day);
+        end: new Date(Number(date?.to)).getTime()
+      })) {
+        schedulesPerDayMap.push(day)
       }
     });
 

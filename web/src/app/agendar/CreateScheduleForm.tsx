@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import { format, isPast, isToday } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -60,8 +60,7 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
       dateService,
     })
     .then(() => {
-      alert("Agendamento criando com sucesso!");
-      window.location.reload()
+      window.location.pathname = "/sucesso"
     })
   }
 
@@ -121,7 +120,7 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
               <Button
                 variant={"outline"}
                 className={cn(
-                  "w-[240px] justify-start text-left font-normal",
+                  "w-full justify-start text-left font-normal",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -133,10 +132,11 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
                 mode="single"
+                locale={pt}
                 selected={date}
                 onSelect={setDate}
                 className="border rounded-md"
-                locale={pt}
+                disabled={date => !isToday(date) || date > new Date("1900-01-01")} //Corrigir
               />
             </PopoverContent>
           </Popover>

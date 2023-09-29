@@ -95,7 +95,11 @@ export async function schedulesRoutes(app: FastifyInstance){
       }
     }
 
-    return todaySchedules;
+    const orderingSchedule: ScheduleTypes[] = todaySchedules.sort((a, b) => {
+      return new Date(a.dateService).getHours() - new Date(b.dateService).getHours()
+    });
+
+    return orderingSchedule;
   });
 
   //Pegando agendamento específico
