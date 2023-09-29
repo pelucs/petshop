@@ -171,7 +171,7 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
         <Textarea
           id="observation"
           {...register("observation")}
-          placeholder="Escreva uam mensagem"
+          placeholder="Escreva uma mensagem"
           className="h-40 resize-none"
         />
       </div>

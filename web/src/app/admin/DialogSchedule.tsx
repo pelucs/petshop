@@ -9,6 +9,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { StatusService } from './StatusService';
 import { FormatDate } from './FormatDate';
 import { api } from '@/api/api';
+import { useEffect, useState } from 'react';
+import { TutorsTypes } from '@/utils/tutorTypes';
 
 interface TypeButtonTrigger{
   type: string;
@@ -17,20 +19,39 @@ interface TypeButtonTrigger{
 
 export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
 
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [tutor, setTutor] = useState<TutorsTypes | undefined>();
+
   const confirmedSchedule = async (id: string, status: string) => {
     await api.put(`/schedules/${id}`, {
       status,
     })
     .then(() => {
       window.location.reload();
-    })
+    });
   }
 
+  //Resgatando as informações do tutor
+  useEffect(() => {
+    if(open){
+      const getTutor = async () => {
+        await api.get(`/tutors/${schedule.userId}`)
+        .then(req => {
+          setTutor(req.data);
+          setLoading(false);
+        })
+      }
+
+      getTutor();
+    }
+  }, [open]);
+
   return(
-    <Dialog>
+    <Dialog onOpenChange={setOpen}>
       {type === "aside" ? (
         <DialogTrigger className="flex-1 py-3 flex items-center justify-between hover:px-4 hover:bg-secondary transition-all rounded-md">
-          <div className="space-y-2">
+          <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-2">
               <h1>
                 {schedule.service}
@@ -55,7 +76,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               <div className="flex items-center gap-1 text-muted-foreground text-xs">
                 <MessageCircle className="w-4 h-4"/>
 
-                <span className="w-full max-w-[210px] whitespace-nowrap text-ellipsis overflow-hidden ">
+                <span className="w-full max-w-[150px] whitespace-nowrap text-ellipsis overflow-hidden ">
                   {schedule.observation}
                 </span>
               </div>
@@ -70,7 +91,6 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
             "border-yellow-500": schedule.status === "pending",
             "border-green-500": schedule.status === "confirmed",
             "border-red-500": schedule.status === "rejected" || schedule.status === "lost",
-
           })}
         >
           <StatusService status={schedule?.status}/>
@@ -91,7 +111,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
             <div className="flex items-center gap-1 text-muted-foreground text-xs">
               <MessageCircle className="w-4 h-4"/>
 
-              <span className="w-full max-w-[210px] whitespace-nowrap text-ellipsis overflow-hidden ">
+              <span className="w-full max-w-[150px] whitespace-nowrap text-ellipsis overflow-hidden ">
                 {schedule.observation}
               </span>
             </div>
@@ -127,15 +147,15 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               <h1>{schedule?.petName}</h1>
             </div>
 
-            {/* <div>
+            <div>
               <span className="text-sm text-muted-foreground">Tutor</span>
-              <h1>{schedule?.tutor}</h1>
-            </div> */}
+              <h1>{tutor?.name}</h1>
+            </div>
 
-            {/* <div>
+            <div>
               <span className="text-sm text-muted-foreground">Contato</span>
-              <h1>{schedule?.contact}</h1>
-            </div> */}
+              <h1>{tutor?.phone}</h1>
+            </div>
           </div>
 
           {schedule?.observation && (

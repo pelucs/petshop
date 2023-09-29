@@ -4,18 +4,19 @@ import Link from "next/link"
 import Image from "next/image";
 
 import { useEffect, useState } from "react";
-import { MoveLeft } from "lucide-react";
+import { User } from "lucide-react";
 import { CreateUserForm } from "./CreateUserForm";
 import { Separator } from "@/components/ui/separator";
 import { CreateScheduleForm } from "./CreateScheduleForm";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 import bg from '../../assets/bg.jpeg';
 
 export default () => {
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [isAuth, setIsAuth] = useState<string>("");
+  const [isAuth, setIsAuth] = useState<string>("")
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -27,24 +28,31 @@ export default () => {
     setLoading(false);
   }, []);
 
+  const signIn = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  }
+
   return(
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
 
       {/* LEFT */}
       {!loading ? (
         <div className="py-10 px-5 md:p-20 overflow-y-auto">
-          <Link href="/" className="flex items-center gap-2">
-            <MoveLeft className="w-4 h-4"/>
+          {isAuth && (
+            <Button onClick={signIn} className="flex items-center gap-1">
+              <User className="w-4 h-4"/>
 
-            Voltar
-          </Link>
+              Login/Registrar
+            </Button>
+          )}
 
           {!isAuth ? (
             <div className="mt-10">
               <div>
-                <h1 className="text-2xl font-semibold">Registrar</h1>
+                <h1 className="text-2xl font-semibold">Preencha seus dados</h1>
                 <p className="text-sm text-muted-foreground">
-                  Você estará se cadastrando como tutor do seu pet (este processo será apenas uma vez)
+                  Você estará se cadastrando como o tutor do seu pet
                 </p>
               </div>
 

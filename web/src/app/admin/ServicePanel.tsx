@@ -53,11 +53,11 @@ export function ServicePanel(){
         </span>
       </div>
 
-      <div className="h-[450px] py-4 px-5 space-y-5 overflow-y-auto">
+      <div className="h-[450px] px-5 space-y-2 overflow-y-auto divide-y-[1px]">
         {!loading ? (
           schedulesPerDay.length > 0 ? (
             schedulesPerDay.map(schedules => (
-              <div key={schedules.key}>
+              <div key={schedules.key} className="py-4">
                 <h1 className="font-semibold flex items-center gap-2">
                   <CalendarDays className="w-4 h-4"/>
     

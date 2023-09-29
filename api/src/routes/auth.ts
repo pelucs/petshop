@@ -16,7 +16,7 @@ interface TutorsTypes{
 export async function authRoutes(app: FastifyInstance){
 
   //Registrando um tutor
-  app.post("/register", async (request) => {
+  app.post("/register", async (req) => {
 
     const bodySchema = z.object({
       name: z.string(),
@@ -25,7 +25,7 @@ export async function authRoutes(app: FastifyInstance){
       address: z.string()
     });
 
-    const { name, email, phone, address } = bodySchema.parse(request.body);
+    const { name, email, phone, address } = bodySchema.parse(req.body);
 
     let user = await prisma.user.findUnique({
       where: {
@@ -84,4 +84,21 @@ export async function authRoutes(app: FastifyInstance){
     return tutorMap;
   });
 
+  //Regatando informações de um tutor específico
+  app.get("/tutors/:id", async (req) => {
+
+    const paramsSchema = z.object({
+      id: z.string().uuid()
+    });
+
+    const { id } = paramsSchema.parse(req.params);
+
+    const tutor = await prisma.user.findFirstOrThrow({
+      where: {
+        id,
+      }
+    });
+
+    return tutor;
+  });
 }

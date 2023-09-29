@@ -14,6 +14,11 @@ GET http://localhost:3333/tutors
 
 ###
 
+# @Tutor único
+GET http://localhost:3333/tutors/3dba6a25-2133-4928-bed1-1e863094b5f4
+
+###
+
 # @Registrando tutor
 POST http://localhost:3333/register
 content-type: application/json

@@ -69,15 +69,19 @@ export default () => {
           </div>
 
           {loading ? (
-            <div className="p-2 grid grid-cols-4 gap-10">
-              <Skeleton className="w-[210px] h-[105px]"/>
-              <Skeleton className="w-[210px] h-[105px]"/>
-              <Skeleton className="w-[210px] h-[105px]"/>
-              <Skeleton className="w-[210px] h-[105px]"/>
-              <Skeleton className="w-[210px] h-[105px]"/>
-              <Skeleton className="w-[210px] h-[105px]"/>
-              <Skeleton className="w-[210px] h-[105px]"/>
-              <Skeleton className="w-[210px] h-[105px]"/>
+            <div className="p-2 grid grid-cols-4 gap-5">
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
+              <Skeleton className="w-full h-[105px]"/>
             </div>
           ) : (
             <div className="min-h-screen grid grid-cols-4 divide-x-[1px] divide-y-[1px] divide-secondary">

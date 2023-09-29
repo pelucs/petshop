@@ -6,19 +6,9 @@ import { MenuAdmin } from "../MenuAdmin";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useEffect, useState } from "react";
 import { api } from "@/api/api";
-import { ScheduleTypes } from "@/utils/schedulesType";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormatDate } from "../FormatDate";
-
-interface TutorsTypes{
-  id: string;
-  name: string;
-  email: string;
-  contact: string;
-  address: string;
-  createdAt: Date;
-  schedules: ScheduleTypes[]
-}
+import { TutorsTypes } from "@/utils/tutorTypes";
 
 export default () => {
 
@@ -37,7 +27,7 @@ export default () => {
   }, []);
 
   const filteringTutors = search.length > 0
-    ? tutors.filter(tutor => tutor.name.toLowerCase().includes(search) || tutor.email.toLowerCase().includes(search) || tutor.contact.toLowerCase().includes(search) || tutor.address.toLowerCase().includes(search))
+    ? tutors.filter(tutor => tutor.name.toLowerCase().includes(search) || tutor.email.toLowerCase().includes(search) || tutor.phone.toLowerCase().includes(search) || tutor.address.toLowerCase().includes(search))
     : tutors;
 
   return(
@@ -70,7 +60,7 @@ export default () => {
                 {filteringTutors.map(tutor => (
                   <TableRow key={tutor.id}>
                     <TableCell>{tutor.name}</TableCell>
-                    <TableCell>{tutor.contact}</TableCell>
+                    <TableCell>{tutor.phone}</TableCell>
                     <TableCell>{tutor.email}</TableCell>
                     <TableCell>{tutor.address}</TableCell>
                     <TableCell>{tutor.schedules.length}</TableCell>
