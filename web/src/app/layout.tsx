@@ -2,6 +2,7 @@ import { ThemeProvider } from '@/components/ui/theme-provider'
 import './global.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Footer } from './admin/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,6 +25,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+
+          <Footer/>
         </ThemeProvider>
       </body>
     </html>

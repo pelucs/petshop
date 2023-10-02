@@ -49,6 +49,12 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
     }
   }, [open]);
 
+  //Exluir agendamento
+  const deleteSchedule = async (id: string) => {
+    await api.delete(`/schedules/${id}`)
+    .then(() => window.location.reload())
+  }
+
   return(
     <Dialog onOpenChange={setOpen}>
       {type === "aside" ? (
@@ -213,8 +219,20 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
                 </PopoverTrigger>
               </Button>
 
-              <PopoverContent>
-                Olá
+              <PopoverContent className="w-80 p-4 bg-background border rounded-md relative top-2">
+                <div className="flex flex-col space-y-5">
+                  <h1 className="text-center leading-tight">Tem certeza que <br/> deseja excluir?</h1>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button onClick={() => deleteSchedule(schedule.id)} variant={'destructive'}>
+                      Exlcuir
+                    </Button>
+
+                    <Button variant={'secondary'}>
+                      Cancelar
+                    </Button>
+                  </div>
+                </div>
               </PopoverContent>
             </Popover>
           </div>
