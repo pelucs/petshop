@@ -141,29 +141,31 @@ export default () => {
           </div>
 
           <div className="py-4 px-5 space-y-4">
-            {/* <div className="h-full flex items-center justify-center">
-              <span className="text-sm text-muted-foreground">
-                Nenhum agendamento
-              </span>
-            </div> */}
-
-            {schedules.map(schedule => (
-              <div className="flex items-center gap-2">
-                <div className="flex-1">
-                  <h1>
-                    {schedule.service}
-                  </h1>
-
-                  <span className="flex items-center gap-1 text-muted-foreground text-sm">
-                    <Clock className="w-4 h-4"/>
-
-                    às <FormatDate date={new Date(Number(schedule.dateService)).getTime()} dateF="HH':'mm'"/>
-                  </span>
+            {schedules.length > 0 ? (
+              schedules.map(schedule => (
+                <div className="flex items-center gap-2">
+                  <div className="flex-1">
+                    <h1>
+                      {schedule.service}
+                    </h1>
+  
+                    <span className="flex items-center gap-1 text-muted-foreground text-sm">
+                      <Clock className="w-4 h-4"/>
+  
+                      às <FormatDate date={new Date(Number(schedule.dateService)).getTime()} dateF="HH':'mm'"/>
+                    </span>
+                  </div>
+  
+                  <StatusService status={schedule.status}/>
                 </div>
-
-                <StatusService status={schedule.status}/>
+              ))
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <span className="text-sm text-muted-foreground">
+                  Nenhum agendamento
+                </span>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>

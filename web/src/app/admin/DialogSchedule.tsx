@@ -180,9 +180,9 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               {schedule.status === "pending" ? (
                 <Button 
                   onClick={() => confirmedSchedule(schedule.id, "confirmed")} 
-                  className="text-base text-secondary hover:bg-green-400 bg-green-500"
+                  className="text-base hover:bg-green-400 bg-green-500"
                 >
-                  <CheckCircle2 className="w-4 h-4 mr-2"/>
+                  <CheckCircle2 className="w-4 h-4 mr-1"/>
 
                   Confirmar
                 </Button>
@@ -191,7 +191,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
                   onClick={() => confirmedSchedule(schedule.id, "conclued")} 
                   className="text-base bg-green-500 text-primary"
                 >
-                  <CheckCircle2 className="w-4 h-4 mr-2"/>
+                  <CheckCircle2 className="w-4 h-4 mr-1"/>
 
                   Concluir
                 </Button>
@@ -205,7 +205,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
                   variant="destructive" 
                   className="text-base"
                 >
-                  <XCircle className="w-4 h-4 mr-2"/>
+                  <XCircle className="w-4 h-4 mr-1"/>
 
                   Rejeitar
                 </Button>
@@ -213,7 +213,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
             </div>
 
             <Popover>
-              <Button variant={"destructive"} asChild>
+              <Button asChild variant="destructive">
                 <PopoverTrigger title="Excluir">
                   <Trash2 className="w-5 h-5"/>
                 </PopoverTrigger>

@@ -16,7 +16,7 @@ export default () => {
           <Link href="/agendar" className="gap-1">
             <User className="w-4 h-4"/>
 
-            Registrar/Login
+            Agendar
           </Link>
         </Button>
       </div>

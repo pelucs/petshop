@@ -136,7 +136,7 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
                 selected={date}
                 onSelect={setDate}
                 className="border rounded-md"
-                disabled={date => !isToday(date) || date > new Date("1900-01-01")} //Corrigir
+                disabled={date => date < new Date()}
               />
             </PopoverContent>
           </Popover>
