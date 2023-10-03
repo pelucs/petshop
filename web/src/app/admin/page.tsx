@@ -119,7 +119,7 @@ export default () => {
         <ServicePanel/>
 
         {/* AGENDAMENTOS DE HOJE */}
-        <div className="h-fit border rounded-md">
+        <div className="h-h-full overflow-y-auto border rounded-md">
           <div className="py-4 px-5 flex items-center justify-between border-b">
             <div>
               <h1 className="font-semibold">
@@ -127,7 +127,7 @@ export default () => {
               </h1>
 
               <span className="text-muted-foreground text-sm">
-                quinta-feira, 22 de out
+                <FormatDate date={new Date().getTime()} dateF="EEEE', 'd' de 'MMMM'"/>
               </span>
             </div>
 
@@ -140,7 +140,7 @@ export default () => {
             </Button>
           </div>
 
-          <div className="py-4 px-5 space-y-4">
+          <div className="py-4 px-5 space-y-4 divide-y-[1px]">
             {schedules.length > 0 ? (
               schedules.map(schedule => (
                 <div className="flex items-center gap-2">

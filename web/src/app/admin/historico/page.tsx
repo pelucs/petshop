@@ -31,24 +31,32 @@ export default () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [schedulesPerDay, setSchedulesPerDay] = useState<SchedulesPerTimeTypes[]>([]);
+  const [search, setSearch] = useState<string>("");
 
   //Pegando os próximos agendamentos
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = async () => {
+    try {
       const response = await api.get("/schedules");
       getNextSchedules(response.data);
-    };
-
-    fetchData();
-  }, [date]);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  
+  useEffect(() => { fetchData(); }, [date]);
 
   const getNextSchedules = (data: SchedulesPerTimeTypes[]) => {
     const schedulesPerDayMap: SchedulesPerTimeTypes[] = [];
 
     data.forEach(day => {
-      if(isWithinInterval(new Date(day.key).getTime(), { //O agendamento está no intervalo das datas estabelecidas?
-        start: new Date(Number(date?.from)).getTime(), 
-        end: new Date(Number(date?.to)).getTime() 
+
+      //Desestruturando meu estado de Date
+      const { from, to } = date || {};
+      const { key, schedules } = day;
+
+      if(isWithinInterval(new Date(key).getTime(), { //O agendamento está no intervalo das datas estabelecidas?
+        start: new Date(Number(from)).getTime(), 
+        end: new Date(Number(to)).getTime() 
       })){
         schedulesPerDayMap.push(day);
       }
@@ -57,6 +65,13 @@ export default () => {
     setSchedulesPerDay(schedulesPerDayMap);
     setLoading(false);
   }
+
+  //MELHORAR
+  const filteringSchedules = search.length > 0 
+  ? schedulesPerDay.filter(day => day.key.includes(search) || day.schedules.filter(schedule => schedule.petName.includes(search) || schedule.userId.includes(search)))
+  : schedulesPerDay;
+
+  console.log(filteringSchedules)
 
   return(
     <div>
@@ -83,8 +98,9 @@ export default () => {
         <div className="flex-1">
           <div className="flex items-center justify-between">
             <Input
-              placeholder="Buscar agendamento..."
               className="w-full max-w-md"
+              placeholder="Buscar agendamento..."
+              onChange={e => setSearch(e.target.value)}
             />
 
             <Popover>
@@ -102,10 +118,10 @@ export default () => {
             </Popover>
           </div>
 
-          <div className="mt-5 px-4 border rounded-md divide-y-[1px]">
+          <div className="min-h-screen mt-5 px-4 border rounded-md divide-y-[1px]">
             {!loading ? (
               schedulesPerDay.length > 0 ? (
-                schedulesPerDay.map(day => (
+                filteringSchedules.map(day => (
                   <div key={day.key} className="py-4">
                     <h1 className="font-semibold flex items-center gap-2">
                       <CalendarDays className="w-4 h-4"/>

@@ -37,18 +37,22 @@ export async function schedulesRoutes(app: FastifyInstance){
       }
     });
 
+    
+    const getKeys = Array.from(schedulePerDayMap.keys()),
+    sortedDays = getKeys.sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+    
     const schedulePerDay: Array<{ key: string, schedules: ScheduleTypes[] }> = [];
-
-    //Ordenando os agendamentos
-    schedulePerDayMap.forEach((object, key) => {
-      const ordering = object.sort((a, b) => Number(a.dateService) - Number(b.dateService));
-
+    
+    sortedDays.forEach(key => {
+      const getDay = schedulePerDayMap.get(key),
+      ordering = getDay ? getDay.sort((a, b) => Number(a.dateService) - Number(b.dateService)) : [];
+      
       schedulePerDay.push({
         key,
         schedules: ordering
       })
-    });
-
+    })
+    
     return schedulePerDay;
   });
 
