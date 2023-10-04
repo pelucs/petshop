@@ -5,7 +5,7 @@ import { MenuAdmin } from "../MenuAdmin";
 import { Calendar } from "@/components/ui/calendar";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { addDays, isWithinInterval, subDays } from "date-fns";
+import { addDays, format, isWithinInterval, subDays } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, SlidersHorizontal } from "lucide-react";
@@ -25,9 +25,9 @@ interface SchedulesPerTimeTypes{
 export default () => {
 
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 20),
-  });
+    from: subDays(new Date().setHours(0, 0, 0, 0), 5),
+    to: addDays(new Date().setHours(0, 0, 0, 0), 5),
+  }); 
 
   const [loading, setLoading] = useState<boolean>(true);
   const [schedulesPerDay, setSchedulesPerDay] = useState<SchedulesPerTimeTypes[]>([]);
@@ -52,26 +52,25 @@ export default () => {
 
       //Desestruturando meu estado de Date
       const { from, to } = date || {};
-      const { key, schedules } = day;
+      const { key } = day;
 
-      if(isWithinInterval(new Date(key).getTime(), { //O agendamento está no intervalo das datas estabelecidas?
-        start: new Date(Number(from)).getTime(), 
-        end: new Date(Number(to)).getTime() 
+      //Corrigir
+      if (isWithinInterval(new Date(key), { // O agendamento está no intervalo dessas datas?
+        start: new Date(Number(from)),
+        end: new Date(Number(to))
       })){
         schedulesPerDayMap.push(day);
       }
-    });
+      });
 
     setSchedulesPerDay(schedulesPerDayMap);
     setLoading(false);
   }
 
-  //MELHORAR
+  //Melhorar
   const filteringSchedules = search.length > 0 
   ? schedulesPerDay.filter(day => day.key.includes(search) || day.schedules.filter(schedule => schedule.petName.includes(search) || schedule.userId.includes(search)))
   : schedulesPerDay;
-
-  console.log(filteringSchedules)
 
   return(
     <div>

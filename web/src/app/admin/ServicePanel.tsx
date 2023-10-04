@@ -1,13 +1,13 @@
 'use client'
 
-import { CalendarDays } from "lucide-react";
-import { DialogSchedule } from "./DialogSchedule";
-import { useEffect, useState } from "react";
 import { api } from "@/api/api";
-import { ScheduleTypes } from "@/utils/schedulesType";
-import { FormatDate } from "./FormatDate";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FormatDate } from "./FormatDate";
+import { CalendarDays } from "lucide-react";
+import { ScheduleTypes } from "@/utils/schedulesType";
+import { DialogSchedule } from "./DialogSchedule";
 import { isPast, isToday } from "date-fns";
+import { useEffect, useState } from "react";
 
 interface SchedulesPerTimeTypes{
   key: string;
@@ -32,8 +32,13 @@ export function ServicePanel(){
     const schedulesMap: SchedulesPerTimeTypes[] = [];
 
     data.forEach(day => {
-      if(!isPast(new Date(day.key).getTime()) || isToday(new Date(day.key).getTime())){
-        schedulesMap.push(day);
+      const filtering = day.schedules.filter(schedule => schedule.status === "pending");
+      
+      if (filtering.length > 0) {
+        schedulesMap.push({
+          key: day.key,
+          schedules: filtering
+        });
       }
     });
 

@@ -15,13 +15,13 @@ import { FormatDate } from "./FormatDate";
 
 export default () => {
 
-  const [schedules, setSchedules] = useState<ScheduleTypes[]>([]);
+  const [schedulesToday, setSchedulesToday] = useState<ScheduleTypes[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get("/schedules/today");
-      setSchedules(response.data);
+      setSchedulesToday(response.data);
     };
 
     fetchData();
@@ -44,7 +44,7 @@ export default () => {
 
           <div className="flex flex-col">
             <strong className="text-4xl">
-              0
+              {schedulesToday.length}
             </strong>
 
             <span className="text-muted-foreground text-sm">
@@ -140,10 +140,10 @@ export default () => {
             </Button>
           </div>
 
-          <div className="py-4 px-5 space-y-4 divide-y-[1px]">
-            {schedules.length > 0 ? (
-              schedules.map(schedule => (
-                <div className="flex items-center gap-2">
+          <div className="px-5 divide-y-[1px]">
+            {schedulesToday.length > 0 ? (
+              schedulesToday.map(schedule => (
+                <div className="py-4 flex items-center gap-2">
                   <div className="flex-1">
                     <h1>
                       {schedule.service}

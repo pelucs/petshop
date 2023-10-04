@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from "@/lib/utils";
-import { format, isPast, isToday } from "date-fns";
+import { format, isAfter, parse } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ import { pt } from "date-fns/locale";
 import { api } from "@/api/api";
 
 import decode from 'jwt-decode';
+import { hours } from "@/utils/hours";
 
 interface CreateScheduleFormProps{
   code: string;
@@ -153,11 +154,15 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
             </SelectTrigger>
 
             <SelectContent>
-              <SelectItem value="08:30">08h30</SelectItem>
-              <SelectItem value="09:00">09h00</SelectItem>
-              <SelectItem value="09:30">09h30</SelectItem>
-              <SelectItem value="10:00">10h00</SelectItem>
-              <SelectItem value="10:30">10h30</SelectItem>
+              {hours.map(hour => (
+                <SelectItem 
+                  key={hour.value} 
+                  value={hour.value}
+                  disabled={isAfter(new Date(), parse(hour.value, 'HH:mm', new Date(date ? date : "")))}
+                >
+                  {hour.value}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

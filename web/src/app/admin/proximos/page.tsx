@@ -23,8 +23,8 @@ export default () => {
 
   //Filtrando por data
   const [date, setDate] = useState<DateRange | undefined>({
-    from: addDays(new Date(), 1),
-    to: addDays(new Date(), 11)
+    from: addDays(new Date().setHours(0, 0, 0, 0), 1),
+    to: addDays(new Date().setHours(0, 0, 0, 0), 11)
   });
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -39,17 +39,17 @@ export default () => {
     }
   }, [date]);
   
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  useEffect(() => { fetchData() }, [fetchData]);
 
   const getNextSchedules = (data: SchedulesPerDayTypes[]) => {
     const schedulesPerDayMap: SchedulesPerDayTypes[] = [];
 
+    const { from, to } = date || {}
+
     data.forEach(day => {
       if(isWithinInterval(new Date(day.key), { 
-        start: new Date(Number(date?.from)).getTime(), 
-        end: new Date(Number(date?.to)).getTime()
+        start: new Date(Number(from)), 
+        end: new Date(Number(to))
       })) {
         schedulesPerDayMap.push(day)
       }
