@@ -143,7 +143,7 @@ export default () => {
           <div className="px-5 divide-y-[1px]">
             {schedulesToday.length > 0 ? (
               schedulesToday.map(schedule => (
-                <div className="py-4 flex items-center gap-2">
+                <div key={schedule.id} className="py-4 flex items-center gap-2">
                   <div className="flex-1">
                     <h1>
                       {schedule.service}

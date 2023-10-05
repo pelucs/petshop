@@ -67,9 +67,8 @@ export default () => {
     setLoading(false);
   }
 
-  //Melhorar
   const filteringSchedules = search.length > 0 
-  ? schedulesPerDay.filter(day => day.key.includes(search) || day.schedules.filter(schedule => schedule.petName.includes(search) || schedule.userId.includes(search)))
+  ? schedulesPerDay.filter(day => day.key.includes(search))
   : schedulesPerDay;
 
   return(
@@ -99,7 +98,7 @@ export default () => {
             <Input
               className="w-full max-w-md"
               placeholder="Buscar agendamento..."
-              onChange={e => setSearch(e.target.value)}
+              onChange={e => setSearch(e.target.value.toLowerCase())}
             />
 
             <Popover>
@@ -126,11 +125,16 @@ export default () => {
                       <CalendarDays className="w-4 h-4"/>
 
                       <FormatDate date={new Date(day.key).getTime()} dateF="EEEE', 'd' de 'MMMM'"/>
+                      {day.key}
                     </h1>
 
                     <div className="mt-2 grid grid-cols-2 gap-x-5">
                       {day.schedules.map(schedules => (
-                        <DialogSchedule key={schedules.id} schedule={schedules} type="aside"/>
+                        <DialogSchedule 
+                          type="aside"
+                          key={schedules.id} 
+                          schedule={schedules} 
+                        />
                       ))}
                     </div>
                   </div>

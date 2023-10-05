@@ -4,7 +4,7 @@ export interface TutorsTypes{
   id: string;
   name: string;
   email: string;
-  phone: string;
+  contact: string;
   address: string;
   createdAt: Date;
   schedules: ScheduleTypes[]

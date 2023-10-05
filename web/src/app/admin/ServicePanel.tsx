@@ -79,7 +79,7 @@ export function ServicePanel(){
           ) : (
             <div className="h-full flex items-center justify-center">
               <span className="text-sm text-muted-foreground">
-                Nenhum agendamento
+                Nenhum agendamento recente
               </span>
             </div>
           )

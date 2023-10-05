@@ -1,14 +1,14 @@
 'use client'
 
-import { Input } from "@/components/ui/input";
-import { HeaderAdmin } from "../HeaderAdmin";
-import { MenuAdmin } from "../MenuAdmin";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useEffect, useState } from "react";
 import { api } from "@/api/api";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { MenuAdmin } from "../MenuAdmin";
 import { FormatDate } from "../FormatDate";
 import { TutorsTypes } from "@/utils/tutorTypes";
+import { HeaderAdmin } from "../HeaderAdmin";
+import { useEffect, useState } from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default () => {
 
@@ -20,15 +20,18 @@ export default () => {
     const fetchData = async () => {
       const response = await api.get("/tutors");
       setTutors(response.data);
-      setLoading(false)
+      setLoading(false);
     };
 
     fetchData();
   }, []);
 
-  const filteringTutors = search.length > 0
-    ? tutors.filter(tutor => tutor.name.toLowerCase().includes(search) || tutor.email.toLowerCase().includes(search) || tutor.phone.toLowerCase().includes(search) || tutor.address.toLowerCase().includes(search))
-    : tutors;
+  //Melhorar pesquisa
+  let filteringTutors = search.length > 0
+  ? tutors.filter(tutor => tutor.name.toLowerCase().includes(search) || tutor.email.toLowerCase().includes(search) || tutor.address.toLowerCase().includes(search) || tutor.contact.replace(/[^\w\s]/gi, "").replace(/\s+/g, '_').includes(search))
+  : tutors;
+
+  console.log(tutors)
 
   return(
     <div>
@@ -38,8 +41,8 @@ export default () => {
       {!loading ? (
         <div className="px-6 pb-6 space-y-5">
           <Input
-            placeholder={`Buscar de ${tutors.length} tutores...`}
             className="w-full max-w-md"
+            placeholder={`Buscar de ${tutors.length} tutores...`}
             onChange={e => setSearch(e.target.value.toLowerCase())}
           />
 
@@ -60,7 +63,7 @@ export default () => {
                 {filteringTutors.map(tutor => (
                   <TableRow key={tutor.id}>
                     <TableCell>{tutor.name}</TableCell>
-                    <TableCell>{tutor.phone}</TableCell>
+                    <TableCell>{tutor.contact}</TableCell>
                     <TableCell>{tutor.email}</TableCell>
                     <TableCell>{tutor.address}</TableCell>
                     <TableCell>{tutor.schedules.length}</TableCell>
