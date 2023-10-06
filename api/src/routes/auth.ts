@@ -7,7 +7,7 @@ interface TutorsTypes{
   id: string;
   name: string;
   email: string;
-  contact: string;
+  phone: string;
   address: string;
   createdAt: Date;
   schedules: ScheduleTypes[]
@@ -74,7 +74,7 @@ export async function authRoutes(app: FastifyInstance){
         id: tutor.id,
         name: tutor.name,
         email: tutor.email,
-        contact: tutor.phone,
+        phone: tutor.phone,
         address: tutor.address,
         createdAt: tutor.createdAt,
         schedules: filteringSchedulesByTutor,

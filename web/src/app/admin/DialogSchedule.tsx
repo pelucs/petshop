@@ -177,7 +177,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
 
           <div className="flex items-center gap-2">
             <div className="flex-1 grid grid-cols-2 gap-2">
-              {schedule.status === "pending" ? (
+              {schedule.status === "pending" || schedule.status === "rejected" ? (
                 <Button 
                   onClick={() => confirmedSchedule(schedule.id, "confirmed")} 
                   className="text-base hover:bg-green-400 bg-green-500"
@@ -189,7 +189,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
               ) : schedule.status === "confirmed" ? (
                 <Button 
                   onClick={() => confirmedSchedule(schedule.id, "conclued")} 
-                  className="text-base bg-green-500 text-primary"
+                  className="text-base hover:bg-green-400 bg-green-500"
                 >
                   <CheckCircle2 className="w-4 h-4 mr-1"/>
 

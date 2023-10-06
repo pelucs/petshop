@@ -28,10 +28,12 @@ export default () => {
 
   //Melhorar pesquisa
   let filteringTutors = search.length > 0
-  ? tutors.filter(tutor => tutor.name.toLowerCase().includes(search) || tutor.email.toLowerCase().includes(search) || tutor.address.toLowerCase().includes(search) || tutor.contact.replace(/[^\w\s]/gi, "").replace(/\s+/g, '_').includes(search))
+  ? tutors.filter(tutor => 
+    tutor.address.toLowerCase().includes(search) || 
+    tutor.name.toLowerCase().includes(search) || 
+    tutor.email.toLowerCase().includes(search) || 
+    tutor.phone.replace(/[^\w\s]/gi, "").replace(/\s+/g, '_').includes(search))
   : tutors;
-
-  console.log(tutors)
 
   return(
     <div>
@@ -63,7 +65,7 @@ export default () => {
                 {filteringTutors.map(tutor => (
                   <TableRow key={tutor.id}>
                     <TableCell>{tutor.name}</TableCell>
-                    <TableCell>{tutor.contact}</TableCell>
+                    <TableCell>{tutor.phone}</TableCell>
                     <TableCell>{tutor.email}</TableCell>
                     <TableCell>{tutor.address}</TableCell>
                     <TableCell>{tutor.schedules.length}</TableCell>

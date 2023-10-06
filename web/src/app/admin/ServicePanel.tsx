@@ -54,7 +54,7 @@ export function ServicePanel(){
         </h1>
 
         <span className="text-muted-foreground text-sm">
-          Painel para aceitar, rejeitar, concluir ou excuir agendamentos
+          Painel para confirmar ou rejeitar agendamentos
         </span>
       </div>
 
