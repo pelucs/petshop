@@ -16,6 +16,7 @@ import { ScheduleTypes } from "@/utils/schedulesType";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormatDate } from "../FormatDate";
 import { pt } from "date-fns/locale";
+import { FilteringByStatus } from "./FilteringByStatus";
 
 interface SchedulesPerTimeTypes{
   key: string;
@@ -31,6 +32,7 @@ export default () => {
 
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [filteringByStatus, setFilteringByStatus] = useState<{ value: string, title: string }[]>([]);
   const [schedulesPerDay, setSchedulesPerDay] = useState<SchedulesPerTimeTypes[]>([]);
 
   //Pegando os próximos agendamentos
@@ -131,19 +133,7 @@ export default () => {
               </div>
             )}
 
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                  <SlidersHorizontal className="w-4 h-4"/>
-
-                  Filtrar
-                </Button>
-              </PopoverTrigger>
-
-              <PopoverContent className="absolute right-0">
-                Olá
-              </PopoverContent>
-            </Popover>
+            <FilteringByStatus setFilteringByStatus={setFilteringByStatus}/>
           </div>
 
           <div className="min-h-screen mt-5 px-4 border rounded-md divide-y-[1px]">

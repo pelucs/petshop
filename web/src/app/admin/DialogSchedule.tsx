@@ -61,7 +61,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
         <DialogTrigger className="flex-1 py-3 flex items-center justify-between hover:px-4 hover:bg-secondary transition-all rounded-md">
           <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-2">
-              <h1>
+              <h1 className="text-left">
                 {schedule.service}
               </h1>
 

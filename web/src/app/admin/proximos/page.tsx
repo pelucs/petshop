@@ -14,7 +14,7 @@ import { DialogSchedule } from "../DialogSchedule";
 import { useCallback, useEffect, useState } from "react";
 import { addDays, isWithinInterval } from "date-fns";
 
-interface SchedulesPerDayTypes{
+export interface SchedulesPerDayTypes{
   key: string;
   schedules: ScheduleTypes[]
 }
@@ -64,8 +64,8 @@ export default () => {
       <HeaderAdmin/>
       <MenuAdmin title="Próximos agendamentos"/>
 
-      <div className="px-6 pb-6 flex items-start gap-5">
-        <div className="sticky top-6">
+      <div className="md:h-screen px-6 pb-6 flex flex-col md:flex-row items-start gap-5">
+        <div className="md:sticky md:top-6">
           <Calendar
             initialFocus
             mode="range"
@@ -109,7 +109,7 @@ export default () => {
                         <FormatDate date={new Date(day.key).getTime()} dateF="EEEE', 'd' de 'MMMM'"/>
                       </h1>
     
-                      <div className="mt-2 grid grid-cols-2 gap-x-5">
+                      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-x-5">
                         {day.schedules.map(schedules => (
                           <DialogSchedule key={schedules.id} schedule={schedules} type="aside"/>
                         ))}

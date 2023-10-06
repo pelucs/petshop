@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from "@/lib/utils";
-import { format, isAfter, parse } from "date-fns";
+import { format, isAfter, isSunday, parse } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { CreateScheduleFormData, scheduleSchema } from "@/utils/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarDays, PawPrint } from "lucide-react";
+import { CalendarDays, Frown, PawPrint } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { pt } from "date-fns/locale";
@@ -181,11 +181,21 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
         />
       </div>
 
-      <Button type="submit" className="w-full gap-2">
-        Agendar 
+      {!isSunday(new Date()) ? (
+        <span className="w-full py-2 rounded-md bg-secondary flex justify-center items-center 
+        gap-2 text-muted-foreground">
+          <Frown className="w-5 h-5"/>
+          
+          Petshop fechado
+        </span>
+      ) : (
+        <Button type="submit" className="w-full gap-2">
+          Agendar 
 
-        <PawPrint className="w-4 h-4"/>
-      </Button>
+          <PawPrint className="w-4 h-4"/>
+        </Button>
+      )}
+
     </form>
   );
 }

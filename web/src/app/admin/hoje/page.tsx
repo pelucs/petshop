@@ -52,8 +52,8 @@ export default () => {
       <HeaderAdmin/>
       <MenuAdmin title="Agendamentos de hoje"/>
 
-      <div className="px-6 pb-6 flex items-start gap-5">
-        <div className="sticky top-6 w-full max-w-md">
+      <div className="px-4 pb-6 flex flex-col md:flex-row items-start gap-5">
+        <div className="md:sticky md:top-6 w-full max-w-md">
           <ServicePanel/>
         </div>
 
@@ -69,7 +69,7 @@ export default () => {
           </div>
 
           {loading ? (
-            <div className="p-2 grid grid-cols-4 gap-5">
+            <div className="p-2 grid grid-cols-3 md:grid-cols-4 gap-5">
               <Skeleton className="w-full h-[105px]"/>
               <Skeleton className="w-full h-[105px]"/>
               <Skeleton className="w-full h-[105px]"/>
@@ -84,7 +84,7 @@ export default () => {
               <Skeleton className="w-full h-[105px]"/>
             </div>
           ) : (
-            <div className="min-h-screen grid grid-cols-4 divide-x-[1px] divide-y-[1px] divide-secondary">
+            <div className="min-h-screen grid grid-cols-1 md:grid-cols-4 divide-x-[1px] divide-y-[1px] divide-secondary">
               {schedulesPerTime.map(schedulePerTime => (
                 <div key={schedulePerTime.time} className="p-2 flex flex-col">
                   <h1 className="w-full py-2 flex items-center justify-center gap-1 rounded bg-secondary">

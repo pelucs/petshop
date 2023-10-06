@@ -58,7 +58,7 @@ export function ServicePanel(){
         </span>
       </div>
 
-      <div className="h-[450px] px-5 space-y-2 overflow-y-auto divide-y-[1px]">
+      <div className="md:h-[450px] px-5 space-y-2 overflow-y-auto divide-y-[1px]">
         {!loading ? (
           schedulesPerDay.length > 0 ? (
             schedulesPerDay.map(schedules => (
