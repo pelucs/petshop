@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+// import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { SlidersHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -27,7 +27,7 @@ export function FilteringByStatus({ setFilteringByStatus }: FilteringByStatusPro
       </PopoverTrigger>
 
       <PopoverContent className="w-[200px] p-0" align="end">
-        <Command>
+        {/* <Command>
           <CommandList>
             <CommandGroup heading="Status">
               <CommandItem key="pending" onSelect={() => setSelected("pending")}>
@@ -43,7 +43,7 @@ export function FilteringByStatus({ setFilteringByStatus }: FilteringByStatusPro
               </CommandItem>
             </CommandGroup>
           </CommandList>
-        </Command>
+        </Command> */}
       </PopoverContent>
     </Popover>
   );

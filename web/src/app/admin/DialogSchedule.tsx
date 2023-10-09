@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ScheduleTypes } from '@/utils/schedulesType';
-import { CheckCircle2, Clock, MessageCircle, PawPrint, Phone, Trash2, XCircle } from 'lucide-react';
+import { Check, CheckCircle2, Clock, Copy, MessageCircle, PawPrint, Phone, Trash2, XCircle } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { StatusService } from './StatusService';
 import { FormatDate } from './FormatDate';
@@ -24,6 +24,7 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [tutor, setTutor] = useState<TutorsTypes | undefined>();
+  const [copyUID, setCopyUID] = useState<boolean>(false);
 
   const confirmedSchedule = async (id: string, status: string) => {
     await api.put(`/schedules/${id}`, {
@@ -156,7 +157,26 @@ export function DialogSchedule({ type, schedule }: TypeButtonTrigger){
             </div>
 
             <div>
-              <span className="text-sm text-muted-foreground">Tutor</span>
+              <span className="text-sm text-muted-foreground flex items-center gap-2">
+                Tutor
+
+                {copyUID ? (
+                  <Check className="w-4 h-4"/>
+                ) : (
+                  <button 
+                    title="Copiar id do tutor"
+                    onClick={() => {
+                      navigator.clipboard.writeText(schedule.userId)
+                      setCopyUID(true)
+
+                      setTimeout(() => { setCopyUID(false) }, 3000)
+                    }}
+                  >
+                    <Copy className="w-4 h-4"/>
+                  </button>
+                )}
+              </span>
+
               <h1>{tutor?.name}</h1>
             </div>
 

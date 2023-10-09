@@ -181,7 +181,7 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
         />
       </div>
 
-      {!isSunday(new Date()) ? (
+      {isSunday(new Date()) ? (
         <span className="w-full py-2 rounded-md bg-secondary flex justify-center items-center 
         gap-2 text-muted-foreground">
           <Frown className="w-5 h-5"/>
@@ -195,7 +195,6 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
           <PawPrint className="w-4 h-4"/>
         </Button>
       )}
-
     </form>
   );
 }

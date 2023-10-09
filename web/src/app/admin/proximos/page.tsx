@@ -79,9 +79,12 @@ export default () => {
             }
           />
 
-          <p className="w-[250px] mt-2 py-2 px-4 rounded-md bg-secondary text-xs text-muted-foreground whitespace-pre-wrap">
-            Escolha as datas para filtrar os agendamentos
-          </p>
+          <div className="w-[250px] text-center mt-2 py-3 px-4 rounded-md border text-xs whitespace-pre-wrap
+          flex items-center gap-2 justify-between">
+            <FormatDate date={new Date(Number(date?.from)).getTime()} dateF="d' de 'MMM', 'Y"/>
+            - 
+            <FormatDate date={new Date(Number(date?.to)).getTime()} dateF="d' de 'MMM', 'Y"/>
+          </div>
         </div>
 
         <div className="flex-1 rounded-md border">

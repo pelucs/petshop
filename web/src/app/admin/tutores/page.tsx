@@ -9,12 +9,15 @@ import { TutorsTypes } from "@/utils/tutorTypes";
 import { HeaderAdmin } from "../HeaderAdmin";
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Check, Copy } from "lucide-react";
 
 export default () => {
 
   const [tutors, setTutors] = useState<TutorsTypes[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
+  const [copyUID, setCopyUID] = useState<boolean>(false);
+  const [idCopied, setIdCopied] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +32,7 @@ export default () => {
   //Melhorar pesquisa
   let filteringTutors = search.length > 0
   ? tutors.filter(tutor => 
+    tutor.id.includes(search) || 
     tutor.address.toLowerCase().includes(search) || 
     tutor.name.toLowerCase().includes(search) || 
     tutor.email.toLowerCase().includes(search) || 
@@ -58,6 +62,7 @@ export default () => {
                   <TableHead>Endereço</TableHead>
                   <TableHead>N° de serviços</TableHead>
                   <TableHead>Data de cadastro</TableHead>
+                  <TableHead>ID</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -70,6 +75,23 @@ export default () => {
                     <TableCell>{tutor.address}</TableCell>
                     <TableCell>{tutor.schedules.length}</TableCell>
                     <TableCell>{<FormatDate date={new Date(tutor.createdAt).getTime()} dateF="dd'/'LL'/'y"/>}</TableCell>
+                    <TableCell>
+                      {idCopied === tutor.id && copyUID === true ? (
+                        <Check className="w-4 h-4"/>
+                      ) : (
+                        <button 
+                          onClick={() => {
+                            navigator.clipboard.writeText(tutor.id)
+                            setIdCopied(tutor.id)
+                            setCopyUID(true)
+
+                            setTimeout(() => { setCopyUID(false) }, 3000)
+                          }}
+                        >
+                          <Copy className="w-4 h-4"/>
+                        </button>
+                      )}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

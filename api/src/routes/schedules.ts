@@ -15,7 +15,7 @@ export interface ScheduleTypes{
 
 export async function schedulesRoutes(app: FastifyInstance){
 
-  //Pegando todos os agendamentos
+  //Todos os agendamentos
   app.get("/schedules", async () => {
 
     const schedules = await prisma.schedule.findMany();
@@ -106,7 +106,7 @@ export async function schedulesRoutes(app: FastifyInstance){
     return orderingSchedule;
   });
 
-  //Pegando agendamento específico
+  //Agendamento específico
   app.get("/schedules/:id", async (req) => {
 
     const paramsSchema = z.object({
@@ -152,7 +152,7 @@ export async function schedulesRoutes(app: FastifyInstance){
     return schedules;
   });
 
-  //Atualizando o meu agendamento
+  //Atualizando um agendamento
   app.put("/schedules/:id", async (req) => {
 
     const paramsScheme = z.object({

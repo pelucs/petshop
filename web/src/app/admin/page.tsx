@@ -16,6 +16,7 @@ import { ScheduleTodayCard } from "./cards-overview/ScheduleTodayCard";
 import { NextSchedulesCard } from "./cards-overview/NextSchedulesCard";
 import { TotalSchedulesCard } from "./cards-overview/TotalSchedulesCard";
 import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default () => {
 
@@ -73,29 +74,38 @@ export default () => {
           </div>
 
           <div className="px-5 divide-y-[1px]">
-            {schedulesToday.length > 0 ? (
-              schedulesToday.map(schedule => (
-                <div key={schedule.id} className="py-4 flex items-center gap-2">
-                  <div className="flex-1">
-                    <h1>
-                      {schedule.service}
-                    </h1>
-  
-                    <span className="flex items-center gap-1 text-muted-foreground text-sm">
-                      <Clock className="w-4 h-4"/>
-  
-                      às <FormatDate date={new Date(Number(schedule.dateService)).getTime()} dateF="HH':'mm'"/>
-                    </span>
+            {!loading ? (
+              schedulesToday.length > 0 ? (
+                schedulesToday.map(schedule => (
+                  <div key={schedule.id} className="py-4 flex items-center gap-2">
+                    <div className="flex-1">
+                      <h1>
+                        {schedule.service}
+                      </h1>
+    
+                      <span className="flex items-center gap-1 text-muted-foreground text-sm">
+                        <Clock className="w-4 h-4"/>
+    
+                        às <FormatDate date={new Date(Number(schedule.dateService)).getTime()} dateF="HH':'mm'"/>
+                      </span>
+                    </div>
+    
+                    <StatusService status={schedule.status}/>
                   </div>
-  
-                  <StatusService status={schedule.status}/>
+                ))
+              ) : (
+                <div className="h-full flex items-center justify-center">
+                  <span className="text-sm text-muted-foreground">
+                    Nenhum agendamento
+                  </span>
                 </div>
-              ))
+              )
             ) : (
-              <div className="h-full flex items-center justify-center">
-                <span className="text-sm text-muted-foreground">
-                  Nenhum agendamento
-                </span>
+              <div className="mt-3 space-y-3">
+                <Skeleton className="w-full h-24 rounded-md"/>
+                <Skeleton className="w-full h-24 rounded-md"/>
+                <Skeleton className="w-full h-24 rounded-md"/>
+                <Skeleton className="w-full h-24 rounded-md"/>
               </div>
             )}
           </div>

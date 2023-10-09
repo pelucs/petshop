@@ -9,7 +9,7 @@ import { DateRange } from "react-day-picker";
 import { addDays, isWithinInterval, subDays } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, Clock, SlidersHorizontal } from "lucide-react";
+import { CalendarDays, Clock, Search, SearchCheck, SlidersHorizontal } from "lucide-react";
 import { DialogSchedule } from "../DialogSchedule";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScheduleTypes } from "@/utils/schedulesType";
@@ -45,7 +45,7 @@ export default () => {
     }
   };
   
-  useEffect(() => { fetchData(); }, [date]);
+  useEffect(() => { fetchData() }, [date]);
 
   const getNextSchedules = (data: SchedulesPerTimeTypes[]) => {
     const schedulesPerDayMap: SchedulesPerTimeTypes[] = [];
@@ -84,6 +84,8 @@ export default () => {
     return null;
   }).filter(Boolean); //Isso remove os elementos nulos ou vazios da matriz.
 
+  //CORRIGIR CALENDÁRIO QUANDO AO DESMARCAR A PRIMEIRA DATA
+
   return(
     <div>
       <HeaderAdmin/>
@@ -101,9 +103,12 @@ export default () => {
             locale={pt}
           />
 
-          <p className="w-[250px] mt-2 py-2 px-4 rounded-md bg-secondary text-xs text-muted-foreground whitespace-pre-wrap">
-            Escolha as datas para filtrar os agendamentos
-          </p>
+          <div className="w-[250px] text-center mt-2 py-3 px-4 rounded-md border text-xs whitespace-pre-wrap
+          flex items-center gap-2 justify-between">
+            <FormatDate date={new Date(Number(date?.from)).getTime()} dateF="d' de 'MMM', 'Y"/>
+            - 
+            <FormatDate date={new Date(Number(date?.to)).getTime()} dateF="d' de 'MMM', 'Y"/>
+          </div>
         </div>
 
         <div className="flex-1">
@@ -117,12 +122,10 @@ export default () => {
                 />
 
                 <div className="h-9 px-3 border flex items-center gap-2 border-dashed rounded-md">
-                  <span className="text-sm flex items-center gap-2 text-muted-foreground">
-                    <Clock className="w-4 h-4"/>
-                    
+                  <span className="text-sm text-muted-foreground">               
                     {filteredSchedules.reduce((total, day) => { 
                       return total + (day ? day.schedules.length : 0)
-                    }, 0)} agendamentos
+                    }, 0)} resultados
                   </span>
                 </div>
               </div>
