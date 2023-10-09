@@ -1,22 +1,20 @@
 'use client'
 
-import { api } from "@/api/api";
-import { HeaderAdmin } from "../HeaderAdmin";
-import { MenuAdmin } from "../MenuAdmin";
-import { Calendar } from "@/components/ui/calendar";
-import { useEffect, useState } from "react";
-import { DateRange } from "react-day-picker";
-import { addDays, isWithinInterval, subDays } from "date-fns";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { CalendarDays, Clock, Search, SearchCheck, SlidersHorizontal } from "lucide-react";
-import { DialogSchedule } from "../DialogSchedule";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ScheduleTypes } from "@/utils/schedulesType";
-import { Skeleton } from "@/components/ui/skeleton";
-import { FormatDate } from "../FormatDate";
 import { pt } from "date-fns/locale";
+import { api } from "@/api/api";
+import { Input } from "@/components/ui/input";
+import { Calendar } from "@/components/ui/calendar";
+import { Skeleton } from "@/components/ui/skeleton";
+import { DateRange } from "react-day-picker";
+import { MenuAdmin } from "../MenuAdmin";
+import { FormatDate } from "../FormatDate";
+import { HeaderAdmin } from "../HeaderAdmin";
+import { CalendarDays } from "lucide-react";
+import { ScheduleTypes } from "@/utils/schedulesType";
+import { DialogSchedule } from "../DialogSchedule";
 import { FilteringByStatus } from "./FilteringByStatus";
+import { useEffect, useState } from "react";
+import { addDays, isWithinInterval, subDays } from "date-fns";
 
 interface SchedulesPerTimeTypes{
   key: string;
@@ -27,7 +25,7 @@ export default () => {
 
   const [date, setDate] = useState<DateRange | undefined>({
     from: subDays(new Date().setHours(0, 0, 0, 0), 5),
-    to: addDays(new Date().setHours(0, 0, 0, 0), 5),
+    to: new Date(new Date().setHours(0, 0, 0, 0)),
   }); 
 
   const [search, setSearch] = useState<string>("");
@@ -84,8 +82,6 @@ export default () => {
     return null;
   }).filter(Boolean); //Isso remove os elementos nulos ou vazios da matriz.
 
-  //CORRIGIR CALENDÁRIO QUANDO AO DESMARCAR A PRIMEIRA DATA
-
   return(
     <div>
       <HeaderAdmin/>
@@ -94,13 +90,26 @@ export default () => {
       <div className="px-6 pb-6 flex items-start gap-5">
         <div className="sticky top-6">
           <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={setDate}
-            className="w-auto border rounded-md"
             locale={pt}
+            mode="range"
+            initialFocus
+            selected={date}
+            defaultMonth={date?.from}
+            className="w-auto border rounded-md"
+            disabled={date => date > new Date()}
+            onSelect={dateSelected => {
+              if (dateSelected) {
+                setDate({
+                  from: dateSelected.from || subDays(new Date(), 5),
+                  to: dateSelected.to || new Date()
+                });
+              } else {
+                setDate({
+                  from: subDays(new Date(), 5),
+                  to: new Date()
+                });
+              }
+            }}
           />
 
           <div className="w-[250px] text-center mt-2 py-3 px-4 rounded-md border text-xs whitespace-pre-wrap

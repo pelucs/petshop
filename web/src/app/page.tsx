@@ -9,7 +9,7 @@ import logo from '../assets/logo.png';
 export default function Home() {
   return (
     <main>
-      <div className="w-full h-screen flex flex-col bg-[url(../assets/bg.png)] bg-center bg-cover">
+      <div className="w-full h-screen flex flex-col bg-[url(../assets/bg.png)] bg-bottom bg-cover">
         <div className="p-10 flex items-center justify-between">
           <div className="flex items-center gap-10">
             <Image src={logo} alt="Logo Woofit" className="w-[130px]"/>
@@ -75,11 +75,11 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative -top-10 px-10">
-        <div className="w-full p-10 grid grid-cols-4 gap-10 rounded-2xl bg-secondary">
+      <div className="relative -top-24 px-10">
+        <div className="w-full p-10 grid grid-cols-4 gap-10 rounded-2xl bg-zinc-100 border">
           <div className="flex flex-col items-start gap-3">
             <div className="w-14 h-14 flex items-center justify-center text-secondary rounded-md bg-primary">
-              <ShowerHead className="w-6 h-6"/>
+              <ShowerHead className="w-7 h-7"/>
             </div>
 
             <div>
@@ -90,7 +90,7 @@ export default function Home() {
 
           <div className="flex flex-col items-start gap-3">
             <div className="w-14 h-14 flex items-center justify-center text-secondary rounded-md bg-primary">
-              <Scissors className="w-6 h-6"/>
+              <Scissors className="w-7 h-7"/>
             </div>
 
             <div>
@@ -101,7 +101,7 @@ export default function Home() {
 
           <div className="flex flex-col items-start gap-3">
             <div className="w-14 h-14 flex items-center justify-center text-secondary rounded-md bg-primary">
-              <Syringe className="w-6 h-6"/>
+              <Syringe className="w-7 h-7"/>
             </div>
 
             <div>
@@ -112,7 +112,7 @@ export default function Home() {
 
           <div className="flex flex-col items-start gap-3">
             <div className="w-14 h-14 flex items-center justify-center text-secondary rounded-md bg-primary">
-              <Cookie className="w-6 h-6"/>
+              <Cookie className="w-7 h-7"/>
             </div>
 
             <div>

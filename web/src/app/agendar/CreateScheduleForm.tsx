@@ -19,6 +19,7 @@ import { api } from "@/api/api";
 
 import decode from 'jwt-decode';
 import { hours } from "@/utils/hours";
+import clsx from "clsx";
 
 interface CreateScheduleFormProps{
   code: string;
@@ -36,7 +37,7 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
   const [service, setService] = useState<string>("");
   const [hourService, setHourService] = useState<string>("");
 
-  const { register, handleSubmit, formState: { errors } } = useForm<CreateScheduleFormData>({
+  const { register, handleSubmit, formState: { errors, isLoading } } = useForm<CreateScheduleFormData>({
     resolver: zodResolver(scheduleSchema)
   });
 
@@ -137,7 +138,7 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
                 selected={date}
                 onSelect={setDate}
                 className="border rounded-md"
-                disabled={date => date < new Date()}
+                disabled={date => date < new Date(new Date().setHours(0, 0, 0, 0))}
               />
             </PopoverContent>
           </Popover>
@@ -153,7 +154,7 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
               <SelectValue placeholder="Selecione um horário"/>
             </SelectTrigger>
 
-            <SelectContent>
+            <SelectContent className="h-60 overflow-y-auto">
               {hours.map(hour => (
                 <SelectItem 
                   key={hour.value} 
@@ -189,7 +190,13 @@ export function CreateScheduleForm({ code }: CreateScheduleFormProps){
           Petshop fechado
         </span>
       ) : (
-        <Button type="submit" className="w-full gap-2">
+        <Button 
+          type="submit" 
+          className={clsx("w-full gap-2", {
+            "opacity-50": isLoading,
+            "opacity-100": !isLoading
+          })}
+        >
           Agendar 
 
           <PawPrint className="w-4 h-4"/>

@@ -36,7 +36,6 @@ export async function schedulesRoutes(app: FastifyInstance){
         schedulePerDayMap.set(key, [schedule]);
       }
     });
-
     
     const getKeys = Array.from(schedulePerDayMap.keys()),
     sortedDays = getKeys.sort((a, b) => new Date(b).getTime() - new Date(a).getTime())

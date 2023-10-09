@@ -1,22 +1,19 @@
 'use client'
 
 import Link from "next/link"
-import Image from "next/image";
 
-import { useEffect, useState } from "react";
 import { User } from "lucide-react";
-import { CreateUserForm } from "./CreateUserForm";
-import { Separator } from "@/components/ui/separator";
-import { CreateScheduleForm } from "./CreateScheduleForm";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-
-import bg from '../../assets/bg.jpeg';
+import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
+import { CreateUserForm } from "./CreateUserForm";
+import { CreateScheduleForm } from "./CreateScheduleForm";
+import { useEffect, useState } from "react";
 
 export default () => {
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [isAuth, setIsAuth] = useState<string>("")
+  const [isAuth, setIsAuth] = useState<string>("");
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -92,7 +89,7 @@ export default () => {
       )}
 
       {/* RIGHT */}
-      <div className="sticky top-0 border-l bg-primary/5"/>
+      <div className="sticky top-0 border-l bg-[url(../../assets/aside.png)]"/>
     </div>
   );
 }

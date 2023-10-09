@@ -45,7 +45,7 @@ export default () => {
       <MenuAdmin title="Tutores"/>
 
       {!loading ? (
-        <div className="px-6 pb-6 space-y-5">
+        <div className="h-[80vh] overflow-y-auto px-6 pb-6 space-y-5">
           <Input
             className="w-full max-w-md"
             placeholder={`Buscar de ${tutors.length} tutores...`}
@@ -108,7 +108,7 @@ export default () => {
         <div className="px-6 pb-6 space-y-5">
           <Skeleton className="w-full max-w-md h-8 rounded-md"/>
 
-          <Skeleton className="w-full h-40 rounded-md"/>
+          <Skeleton className="w-full h-[80vh] rounded-md"/>
         </div>
       )}
     </div>

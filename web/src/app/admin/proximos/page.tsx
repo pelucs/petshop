@@ -34,6 +34,7 @@ export default () => {
     try {
       const response = await api.get("/schedules");
       getNextSchedules(response.data);
+      console.log(date)
     } catch (error) {
       // Lidar com o erro da requisição
     }
@@ -51,7 +52,7 @@ export default () => {
         start: new Date(Number(from)), 
         end: new Date(Number(to))
       })) {
-        schedulesPerDayMap.push(day)
+        schedulesPerDayMap.push(day);
       }
     });
 
@@ -71,12 +72,24 @@ export default () => {
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
             className="w-auto border rounded-md"
             locale={pt} 
             disabled={(date) =>
               date < new Date()
             }
+            onSelect={dateSelected => {
+              if (dateSelected) {
+                setDate({
+                  from: dateSelected.from || new Date(),
+                  to: dateSelected.to || addDays(new Date(), 1)
+                });
+              } else {
+                setDate({
+                  from: new Date(),
+                  to: addDays(new Date(), 1)
+                });
+              }
+            }}
           />
 
           <div className="w-[250px] text-center mt-2 py-3 px-4 rounded-md border text-xs whitespace-pre-wrap
