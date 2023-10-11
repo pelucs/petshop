@@ -64,6 +64,6 @@
   }
 
   .link-menu-admin{
-    @apply py-[2px] px-2 flex items-center gap-1 rounded hover:bg-background hover:text-primary
+    @apply py-[2px] px-[2px] md:px-2 flex items-center gap-1 rounded hover:bg-background hover:text-primary
   }
 }

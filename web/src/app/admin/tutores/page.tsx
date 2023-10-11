@@ -68,7 +68,7 @@ export default () => {
 
               <TableBody>
                 {filteringTutors.map(tutor => (
-                  <TableRow key={tutor.id}>
+                  <TableRow key={tutor.id} className="text-xs md:text-base">
                     <TableCell>{tutor.name}</TableCell>
                     <TableCell>{tutor.phone}</TableCell>
                     <TableCell>{tutor.email}</TableCell>
@@ -85,7 +85,10 @@ export default () => {
                             setIdCopied(tutor.id)
                             setCopyUID(true)
 
-                            setTimeout(() => { setCopyUID(false) }, 3000)
+                            setTimeout(() => { 
+                              setCopyUID(false)
+                              setIdCopied("")
+                             }, 3000);
                           }}
                         >
                           <Copy className="w-4 h-4"/>
