@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Cookie, Medal, Scissors, ShowerHead, Smartphone, Syringe } from "lucide-react";
 
 import logo from '../assets/logo.png';
+import img1 from '../assets/dalmata.jpg';
+import img2 from '../assets/feliz.jpg';
 
 export default function Home() {
   return (
@@ -56,7 +58,10 @@ export default function Home() {
           </p>
 
           <div className="flex items-center gap-5">
-            <Button asChild className="bg-white text-primary hover:bg-zinc-200">
+            <Button 
+              asChild 
+              className="h-12 text-primary bg-white hover:bg-zinc-200"
+            >
               <Link href="/agendar" className="w-full max-w-xs gap-1 text-primary">
                 <ShowerHead className="w-5 h-5"/>
 
@@ -64,8 +69,11 @@ export default function Home() {
               </Link>
             </Button>
 
-            <Button asChild variant={'outline'} className=" text-white hover:bg-transparent hover:text-white">
-              <span className="w-full max-w-xs gap-1">
+            <Button 
+              variant={'outline'} 
+              className="w-full max-w-xs h-12 hover:bg-transparent text-white hover:text-white"
+            >
+              <span className="flex items-center justify-center gap-2">
                 <Smartphone className="w-5 h-5"/>
 
                 (83) 90000-0000
@@ -75,51 +83,63 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative -top-24 px-10">
-        <div className="w-full p-10 grid grid-cols-4 gap-10 rounded-2xl bg-zinc-100 border">
+      <div className="relative -top-10 px-10">
+        <div className="w-full p-10 grid grid-cols-4 space-x-10 divide-x-[1px] rounded-2xl divide-zinc-200 bg-zinc-100 border">
           <div className="flex flex-col items-start gap-3">
-            <div className="w-14 h-14 flex items-center justify-center text-secondary rounded-md bg-primary">
+            <div className="w-12 h-12 flex items-center justify-center text-secondary rounded-md bg-primary">
               <ShowerHead className="w-7 h-7"/>
             </div>
 
             <div>
               <h1 className="text-2xl font-bold">Banho</h1>
-              <p>Lorem ipsum dolor asp maxstell muspi merol</p>
+              <p className="leading-none text-sm">Lorem ipsum dolor asp maxstell muspi merol</p>
             </div>
           </div>
 
           <div className="flex flex-col items-start gap-3">
-            <div className="w-14 h-14 flex items-center justify-center text-secondary rounded-md bg-primary">
+            <div className="w-12 h-12 flex items-center justify-center text-secondary rounded-md bg-primary">
               <Scissors className="w-7 h-7"/>
             </div>
 
             <div>
               <h1 className="text-2xl font-bold">Tosa</h1>
-              <p>Lorem ipsum dolor asp maxstell muspi merol</p>
+              <p className="leading-none text-sm">Lorem ipsum dolor asp maxstell muspi merol</p>
             </div>
           </div>
 
           <div className="flex flex-col items-start gap-3">
-            <div className="w-14 h-14 flex items-center justify-center text-secondary rounded-md bg-primary">
+            <div className="w-12 h-12 flex items-center justify-center text-secondary rounded-md bg-primary">
               <Syringe className="w-7 h-7"/>
             </div>
 
             <div>
               <h1 className="text-2xl font-bold">Vacinas</h1>
-              <p>Lorem ipsum dolor asp maxstell muspi merol</p>
+              <p className="leading-none text-sm">Lorem ipsum dolor asp maxstell muspi merol</p>
             </div>
           </div>
 
           <div className="flex flex-col items-start gap-3">
-            <div className="w-14 h-14 flex items-center justify-center text-secondary rounded-md bg-primary">
+            <div className="w-12 h-12 flex items-center justify-center text-secondary rounded-md bg-primary">
               <Cookie className="w-7 h-7"/>
             </div>
 
             <div>
               <h1 className="text-2xl font-bold">Petiscos</h1>
-              <p>Lorem ipsum dolor asp maxstell muspi merol</p>
+              <p className="leading-none text-sm">Lorem ipsum dolor asp maxstell muspi merol</p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="p-10 grid grid-cols-2 gap-20">
+        <div>
+          <h1 className="text-4xl font-bold">Bem-vindo à Família <br/> Woofit!</h1>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit, vero id unde non ea natus fuga voluptatibus.</p>
+        </div>
+
+        <div className="flex items-center justify-center relative">
+          <Image src={img1} alt="" className="rounded-md"/>
+          <Image src={img2} alt="" className="relative top-12 right-12 rounded-md"/>
         </div>
       </div>
     </main>
