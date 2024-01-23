@@ -1,16 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { Home, User } from "lucide-react";
+import { Home } from "lucide-react";
 
 import Link from "next/link";
 import Image from "next/image";
 
+import logoBlack from '../../assets/logo-black.png';
 import cachorro from '../../assets/cachorro-no-banho.gif';
 
 export default () => {
   return(
     <div className="min-h-screen grid grid-cols-2">
       <div className="p-20 space-y-10">
-        <h1 className="text-2xl font-bold">PetShop</h1>
+        <Link href="/">
+          <Image src={logoBlack} alt="Logo Woofit" className="w-[130px]"/>
+        </Link>
 
         <div>
           <strong className="text-5xl">

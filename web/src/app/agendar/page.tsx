@@ -89,7 +89,7 @@ export default () => {
       )}
 
       {/* RIGHT */}
-      <div className="sticky top-0 border-l"/>
+      <div className="sticky top-0 border-l bg-[url(/aside.png)]"/>
     </div>
   );
 }

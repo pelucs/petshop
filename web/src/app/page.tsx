@@ -1,12 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { Button } from "@/components/ui/button";
-import { Cookie, Medal, Scissors, ShowerHead, Smartphone, Syringe } from "lucide-react";
-
 import logo from '../assets/logo.png';
+import logoBlack from '../assets/logo-black.png';
 import img1 from '../assets/dalmata.jpg';
 import img2 from '../assets/feliz.jpg';
+
+import { Button } from "@/components/ui/button";
+import { Cookie, 
+  Github, 
+  Instagram, 
+  Linkedin, 
+  Mail, 
+  Medal, 
+  Scissors, 
+  ShowerHead, 
+  Smartphone, 
+  Syringe 
+} from "lucide-react";
 
 export default function Home() {
   return (
@@ -84,7 +95,7 @@ export default function Home() {
       </div>
 
       <div className="relative -top-10 px-10">
-        <div className="w-full p-10 grid grid-cols-4 space-x-10 divide-x-[1px] rounded-2xl divide-zinc-200 bg-zinc-100 border">
+        <div className="w-full p-10 grid grid-cols-4 space-x-10 rounded-2xl bg-zinc-100 border">
           <div className="flex flex-col items-start gap-3">
             <div className="w-12 h-12 flex items-center justify-center text-secondary rounded-md bg-primary">
               <ShowerHead className="w-7 h-7"/>
@@ -134,12 +145,65 @@ export default function Home() {
       <div className="p-10 grid grid-cols-2 gap-20">
         <div>
           <h1 className="text-4xl font-bold">Bem-vindo à Família <br/> Woofit!</h1>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit, vero id unde non ea natus fuga voluptatibus.</p>
+
+          <p className="w-full max-w-lg mt-2">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. In doloribus cum incidunt excepturi non. 
+            Provident laboriosam rerum voluptate. Nesciunt, aspernatur. Deserunt enim earum corrupti velit optio 
+            cum quasi numquam fugit
+            </p>
         </div>
 
         <div className="flex items-center justify-center relative">
-          <Image src={img1} alt="" className="rounded-md"/>
-          <Image src={img2} alt="" className="relative top-12 right-12 rounded-md"/>
+          <Image src={img1} alt="" className="w-[360px] rounded-md"/>
+          <Image src={img2} alt="" className="w-[360px] relative top-20 right-20 rounded-md"/>
+        </div>
+      </div>
+
+      <div className="w-full py-20 flex flex-col items-center space-y-7">
+        <Link href="/">
+          <Image src={logoBlack} alt="Logo Woofit" className="w-[130px]"/>
+        </Link>
+
+        <nav className="flex items-center gap-4">
+          <Link href="/" className="text-xs uppercase text-zinc-500 transition-colors">
+            Início
+          </Link>
+
+          <Link href="/projetos" className="text-xs uppercase text-zinc-500 transition-colors">
+            Projetos
+          </Link>
+
+          <Link href="/#sobre" className="text-xs uppercase text-zinc-500 transition-colors">
+            Sobre mim
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <a target="_blank" href="https://www.instagram.com/pdlucs/">
+            <Instagram className="w-5 h-5"/>
+          </a>
+
+          <a target="_blank" href="https://linkedin.com/in/pedro-lucas-5419622a9">
+            <Linkedin className="w-5 h-5"/>
+          </a>
+
+          <a target="_blank" href="https://github.com/pelucs">
+            <Github className="w-5 h-5"/>
+          </a>
+
+          <a href="mailto:pedro.lucs0089@gmail.com">
+            <Mail className="w-5 h-5"/>
+          </a>
+        </div>
+
+        <div className="flex flex-col items-center text-zinc-500 text-xs">
+          <p>
+            &copy;2024 - Todos os direitos reservados
+          </p>
+
+          <p className="mt-1">
+            Desenvolvido por Pedro Lucas
+          </p>
         </div>
       </div>
     </main>
